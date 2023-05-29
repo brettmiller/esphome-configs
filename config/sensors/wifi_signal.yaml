@@ -1,0 +1,17 @@
+---
+# WiFi Signal Sensor
+#
+# The wifi_signal sensor platform allows you to read the signal strength of the
+# currently connected WiFi Access Point.
+#
+# https://esphome.io/components/sensor/wifi_signal.html
+#
+# "stolen" from https://github.com/frenck/home-assistant-config/blob/ae44a5186d2a30254266e196b6c239cd4ef01250/esphome/sensors/wifi_signal.yaml
+#
+platform: wifi_signal
+id: sensor_wifi_signal
+name: "${friendly_name} Wi-Fi Signal"
+entity_category: diagnostic
+state_class: measurement
+disabled_by_default: true
+update_interval: 300s

@@ -1,0 +1,23 @@
+---
+# Web Server component
+#
+# The web_server component creates a simple web server on the node that can be
+# accessed through any browser and a simple REST API. Please note that enabling
+# this component will take up a lot of memory and can lead to problems,
+# especially on the ESP8266.
+#
+# https://esphome.io/components/web_server.html
+#
+substitutions:
+  web_server_username: esphome
+# Below needs to be set in the yaml this file is included from
+# so it can get the secret from the included common/secret.yaml
+#  web_server_password: !secret esphome_web_server_password
+
+<<: !include ../common/secrets.yaml
+
+web_server:
+  id: component_web_server
+  auth:
+    username: "${web_server_username}"
+    password: ${esphome_web_server_password} # "${web_server_password}"

@@ -1,0 +1,39 @@
+substitutions:
+  device_name: testy
+  description: test w/ light
+  friendly_name: Testy Testerson
+  #web_server_password: !secret esphome_web_server_password
+
+packages:
+  <<: !include_dir_named common
+  component: !include components/web_server.yaml
+
+esphome:
+  name: ${device_name}
+  comment: ${description}
+  on_boot:
+    then:
+      - delay: 2s
+      - light.turn_on:
+          id: bedroom_hp_led
+          brightness: 15%
+
+esp32:
+  board: lolin_c3_mini
+
+logger:
+  deassert_rts_dtr: true
+
+light:
+  - platform: neopixelbus
+    id: bedroom_hp_led
+    #restore_mode: ALWAYS_ON
+    type: GRB
+    variant: WS2812
+    method: ESP32_RMT_1
+    #method: ESP32_RMT
+    num_leds: 1
+    pin: GPIO7
+    name: "Bedroom heatpump led"
+    # hack to reduce brightness, now set using 'on_boot:' 
+    #color_correct: [11%, 11%, 11%]

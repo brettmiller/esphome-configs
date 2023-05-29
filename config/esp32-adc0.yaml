@@ -1,0 +1,30 @@
+substitutions:
+  device_name: esp32-adc0
+  friendly_name: esp32-adc0
+  description: esphome adc piezo testing
+  board: esp32doit-devkit-v1
+
+packages:
+  <<: !include_dir_named common
+
+esp32:
+  board: ${board}
+  #framework:
+  #  type: esp-idf
+
+sensor:
+  - platform: adc
+    pin: GPIO32
+    name: "piezo test"
+    id: piezo_test
+    update_interval: 1s
+    filters:
+      - multiply: 5
+
+# Enable logging
+logger:
+  baud_rate: 0 #disable UART logging
+
+# Enable web server - required connecting to https://oi.esphome.io for .js (or a local server to host them)
+web_server:
+  port: 80

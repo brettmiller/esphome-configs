@@ -1,0 +1,34 @@
+---
+# Wi-Fi component package
+#
+# Contains my common Wi-Fi setup.
+#
+# https://esphome.io/components/wifi.html
+#
+# based off of https://github.com/frenck/home-assistant-config/blob/ae44a5186d2a30254266e196b6c239cd4ef01250/esphome/common/wifi.yaml
+#
+substitutions:
+  wifi_ssid: !secret wifi_home_ssid
+  wifi_password: !secret wifi_home_password
+  wifi_ap_password: !secret fallback_ap_pass
+
+wifi:
+  id: component_wifi
+  ssid: "${wifi_ssid}"
+  password: "${wifi_password}"
+  reboot_timeout: 10min
+  ap:
+    ssid: "${device_name}_ap"
+    password: "${wifi_ap_password}"
+
+captive_portal:
+
+sensor:
+  - <<: !include ../sensors/wifi_signal_percentage.yaml
+  - <<: !include ../sensors/wifi_signal.yaml
+    on_value:
+      - component.update: sensor_wifi_signal_percentage
+
+text_sensor:
+  - <<: !include ../text-sensors/wifi_info.yaml
+

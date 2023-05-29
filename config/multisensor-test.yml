@@ -1,0 +1,11 @@
+# multi sensor/i2c testing
+
+substitutions:
+  device_name: multisensor0
+  description: test w/ i2c sensors
+  friendly_name: Multisensor0
+
+packages:
+  <<: !include_dir_named common
+  board: !include boards/nodemcu.yaml
+  i2c: !include components/i2c_esp8266.yaml

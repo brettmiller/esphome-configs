@@ -1,0 +1,15 @@
+---
+# Time
+#
+# The time component allows you to set up real time clock time sources
+# for ESPHome.
+#
+# https://esphome.io/components/time.html
+#
+substitutions:
+  time_timezone: "America/Chicago"
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+    timezone: ${time_timezone}

@@ -1,0 +1,19 @@
+---
+# WiFi Info Text Sensor
+#
+# The wifi_info text sensor platform exposes different WiFi information via
+# text sensors.
+#
+# "stolen" from https://github.com/frenck/home-assistant-config/blob/ae44a5186d2a30254266e196b6c239cd4ef01250/esphome/text_sensors/wifi_info.yaml
+#
+platform: wifi_info
+ip_address:
+  name: "${friendly_name} IP Address"
+  icon: mdi:ip-network
+ssid:
+  name: "${friendly_name} SSID"
+  icon: mdi:wifi-settings
+bssid:
+  name: "${friendly_name} BSSID"
+  icon: mdi:identifier
+

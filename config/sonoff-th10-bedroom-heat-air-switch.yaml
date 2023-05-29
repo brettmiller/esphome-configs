@@ -1,0 +1,84 @@
+# Basic Config
+esphome:
+  name: bedroom-heat-air
+  platform: ESP8266
+  board: esp01_1m
+  board_flash_mode: dout
+  #on_boot:
+  #  #priority: -10
+  #  then:
+  #    - light.turn_on: blue_led
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: ${friendly_name}_AP
+    password: !secret fallback_ap_pass
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: !secret esphome_api_key
+
+# Enable OTA updates
+ota:
+  password: !secret esphome_ota_password
+
+#web_server:
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "Bedroom Heat/Air Button"
+    on_press:
+      - light.toggle: th10_1_relay
+  - platform: status
+    name: "Bedroom Heat/Air Status"
+
+sensor:
+  - platform: wifi_signal
+    name: "Bedroom Heat/Air WiFi Signal"
+    update_interval: 60s
+#  - platform: dht
+#    model: SI7021
+#    pin: GPIO14
+#    humidity:
+#      name: "Bedroom Head/Air Switch Humidity"
+#    temperature:
+#      name: "Bedroom Heat/Air Switch Temp"
+#    update_interval: 60s
+
+switch:
+  - platform: restart
+    name: "Bedroom Heat/Air Restart"
+    restore_mode: RESTORE_DEFAULT_OFF
+
+output:
+  - platform: esp8266_pwm
+    id: TH10_1_blue_led
+    pin:
+      number: GPIO13
+      inverted: True
+  - platform: gpio
+    id: relay
+    pin: GPIO12
+
+light:
+  - platform: monochromatic
+    name: "Bedroom Heat/Air blue LED"
+    id: blue_led
+    output: TH10_1_blue_led
+  - platform: binary
+    name: "Bedroom Heat/Air Relay"
+    id: th10_1_relay
+    output: relay
