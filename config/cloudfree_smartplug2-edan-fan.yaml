@@ -1,7 +1,7 @@
 substitutions:
   device_name: edan-plug-fan
+  name: Edan Fan
   description: Edan's Fan Plug (Cloudfree SmartPlug2)
-  friendly_name: Edan Fan
   switch_restore_mode: ALWAYS_OFF
   #switch_restore_mode: RESTORE_DEFAULT_OFF
   #ipaddress: 192.168.1.200

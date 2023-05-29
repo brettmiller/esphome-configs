@@ -3,7 +3,7 @@ substitutions:
   device_name: bedroom-heat-pump 
   device_id: bedroom_heat_pump 
   description: Master bedroom heat pump
-  friendly_name: Bedroom heat pump
+  name: Bedroom heat pump
 
 packages:
   <<: !include_dir_named common

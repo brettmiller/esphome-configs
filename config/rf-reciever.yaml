@@ -1,6 +1,6 @@
 substitutions:
   device_name: esp32-rf
-  friendly_name: esp32-rf0
+  name: esp32-rf0
   description: esphome rf(433MHZ) recieve/transmit testing
   board: esp32doit-devkit-v1
 

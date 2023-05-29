@@ -1,7 +1,7 @@
 substitutions:
   device_name: testy
   description: test w/ light
-  friendly_name: Testy Testerson
+  name: Testy Testerson
   #web_server_password: !secret esphome_web_server_password
 
 packages:

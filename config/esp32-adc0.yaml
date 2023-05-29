@@ -1,6 +1,6 @@
 substitutions:
   device_name: esp32-adc0
-  friendly_name: esp32-adc0
+  name: esp32-adc0
   description: esphome adc piezo testing
   board: esp32doit-devkit-v1
 

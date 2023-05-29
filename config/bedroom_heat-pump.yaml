@@ -3,7 +3,7 @@ substitutions:
   device_name: bedroom-heat-pump 
   device_id: bedroom_heat_pump 
   description: Master bedroom heat pump
-  friendly_name: Bedroom heat pump
+  name: Bedroom heat pump
 
 packages:
   <<: !include_dir_named common
@@ -51,7 +51,7 @@ climate:
   - platform: mitsubishi_heatpump
     # using "name: none" uses friendly name
     name: none
-    #name: "${friendly_name}"
+    #name: "${name}"
     id: ${device_id}_climate
     # ESP32 only - change UART0 to UART1 or UART2 and remove the
     # logging:baud_rate above to allow the built-in UART0 to function for
