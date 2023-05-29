@@ -50,8 +50,7 @@ logger:
 climate:
   - platform: mitsubishi_heatpump
     # using "name: none" uses friendly name
-    name: none
-    #name: "${name}"
+    name: "${name}"
     id: ${device_id}_climate
     # ESP32 only - change UART0 to UART1 or UART2 and remove the
     # logging:baud_rate above to allow the built-in UART0 to function for
