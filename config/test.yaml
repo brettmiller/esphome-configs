@@ -34,6 +34,6 @@ light:
     #method: ESP32_RMT
     num_leds: 1
     pin: GPIO7
-    name: "Bedroom heatpump led"
+    name: ${name} led"
     # hack to reduce brightness, now set using 'on_boot:' 
     #color_correct: [11%, 11%, 11%]
