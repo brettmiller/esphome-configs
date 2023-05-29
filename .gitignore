@@ -3,3 +3,4 @@ venv/
 .esphome/
 builds/*
 cache/*
+config/.build

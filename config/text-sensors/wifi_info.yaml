@@ -8,12 +8,12 @@
 #
 platform: wifi_info
 ip_address:
-  name: "${friendly_name} IP Address"
+  name: "${name} IP Address"
   icon: mdi:ip-network
 ssid:
-  name: "${friendly_name} SSID"
+  name: "${name} SSID"
   icon: mdi:wifi-settings
 bssid:
-  name: "${friendly_name} BSSID"
+  name: "${name} BSSID"
   icon: mdi:identifier
 

@@ -12,7 +12,7 @@
 #
 platform: template
 id: sensor_wifi_signal_percentage
-name: "${friendly_name} Wi-Fi Signal Percentage"
+name: "${name} Wi-Fi Signal Percentage"
 entity_category: diagnostic
 state_class: measurement
 icon: "mdi:wifi"
