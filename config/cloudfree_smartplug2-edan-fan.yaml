@@ -10,4 +10,5 @@ substitutions:
   #voltage_calibration1: 0.0 -> 0.0
   #voltage_calibration2: 322.4 -> 118.3
 
-<<: !include devices/aoycocr_x10s_common.yaml
+packages:
+  device: !include devices/aoycocr_x10s_common.yaml
