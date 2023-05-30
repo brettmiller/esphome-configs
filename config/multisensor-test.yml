@@ -2,10 +2,17 @@
 
 substitutions:
   device_name: multisensor0
+  name: Multisensor0
   description: test w/ i2c sensors
-  friendly_name: Multisensor0
 
 packages:
   <<: !include_dir_named common
   board: !include boards/nodemcu.yaml
   i2c: !include components/i2c_esp8266.yaml
+
+#Enable logging
+logger:
+#  baud_rate: 0 #disable UART logging
+
+sensor:
+  - <<: !include sensors/shtcx.yaml
