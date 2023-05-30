@@ -14,5 +14,6 @@ temperature:
 humidity:
   id: sensor_humidity
   name: "${name} Humidity"
-update_interval: 600s
+# update_interval defaults to 60s   
+#update_interval: 300s
 
