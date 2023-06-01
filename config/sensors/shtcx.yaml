@@ -7,6 +7,10 @@
 #
 # https://esphome.io/components/sensor/shtcx.html
 #
+# connections:
+# sda I²C bus data line - usually defaults to GPIO21 for ESP32 and GPIO4 for ESP8266
+# scl I²C bus clock line - usually defaults to GPIO22 for ESP32 and GPIO5 for ESP8266
+
 platform: shtcx
 temperature:
   id: sensor_temperature
@@ -16,4 +20,3 @@ humidity:
   name: "${name} Humidity"
 # update_interval defaults to 60s   
 #update_interval: 300s
-
