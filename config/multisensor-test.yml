@@ -16,3 +16,4 @@ logger:
 
 sensor:
   - <<: !include sensors/shtcx.yaml
+  - <<: !include sensors/bh1750.yaml
