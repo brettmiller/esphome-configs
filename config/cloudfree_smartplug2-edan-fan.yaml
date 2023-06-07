@@ -12,3 +12,5 @@ substitutions:
 
 packages:
   device: !include devices/aoycocr_x10s_common.yaml
+
+logger:
