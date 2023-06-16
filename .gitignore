@@ -2,5 +2,6 @@ secrets.yaml
 venv/
 .esphome/
 builds/*
+builds
 cache/*
 config/.build
