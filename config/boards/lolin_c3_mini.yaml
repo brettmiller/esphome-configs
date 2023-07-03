@@ -1,0 +1,4 @@
+esp32:
+  board: lolin_c3_mini
+  framework:
+    type: arduino

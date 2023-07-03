@@ -7,7 +7,9 @@
 # especially on the ESP8266.
 #
 # https://esphome.io/components/web_server.html
-#
+
+# !!!! THIS DOESN'T CURRENTLY WORK, b/c of issuse with secrets (and the include?) !!!!
+
 substitutions:
   web_server_username: esphome
 # Below needs to be set in the yaml this file is included from

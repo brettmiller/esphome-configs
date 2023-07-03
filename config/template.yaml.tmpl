@@ -1,4 +1,6 @@
-# multi sensor/i2c testing
+---
+# {{...}}=needs replacement
+# {{DESCRIPTION}}
 
 substitutions:
   device_name: multisensor0
@@ -7,13 +9,12 @@ substitutions:
 
 packages:
   <<: !include_dir_named common
-  board: !include boards/nodemcu.yaml
-  i2c: !include components/i2c.yaml
+  board: !include boards/{{BOARD}}.yaml
+  #i2c: !include components/i2c.yaml
 
 #Enable logging
 logger:
 #  baud_rate: 0 #disable UART logging
 
-sensor:
-  - <<: !include sensors/shtcx.yaml
-  - <<: !include sensors/bh1750.yaml
+#sensor:
+  #- <<: !include sensors/{{SENSOR}}.yaml

@@ -2,7 +2,7 @@
 substitutions:
   device_name: bedroom-heat-pump 
   device_id: bedroom_heat_pump 
-  description: Master bedroom heat pump
+  description: Primary bedroom heat pump
   name: Bedroom heat pump
 
 packages:

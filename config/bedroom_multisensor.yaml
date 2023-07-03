@@ -1,0 +1,60 @@
+---
+# {{...}}=needs replacement
+# {{DESCRIPTION}}
+
+substitutions:
+  device_name: bedroom-multisensor0
+  name: Primary Bedroom Multisensor0
+  id: primary_bedroom_multisensor0
+  description: Primary bedroom bed, temp, light sensors
+  i2c_sda: GPIO8
+  i2c_slc: GPIO10
+  bed_sensor_gpio: GPIO0
+  onboard_led_gpio: GPIO7
+
+packages:
+  <<: !include_dir_named common
+  board: !include boards/lolin_c3_mini.yaml
+  i2c: !include components/i2c.yaml
+
+esphome:
+  # turn on onboad led to green w/ brightness %
+  # (dimmest is 11%, 12% turns on more reliably, off ≤ 10%)
+  on_boot:
+    then:
+      - delay: 2s
+      - light.turn_on:
+          id: ${id}_led
+          brightness: 13%
+          red: 0%
+          green: 100%
+          blue: 0%
+
+#Enable logging
+logger:
+#  baud_rate: 0 #disable UART logging
+
+light:
+  - <<: !include components/onboard_ws2812.yaml
+
+sensor:
+  - <<: !include sensors/shtcx.yaml
+  - <<: !include sensors/bh1750.yaml
+  - <<: !include sensors/bed_sensor.yaml
+  - platform: homeassistant
+    name: "${name} Bed Trigger Level"
+    id: "${id}_bed_trigger_level"
+    entity_id: input_number.${id}_bed_trigger_level
+
+binary_sensor:
+  - platform: template
+    name: "${name} Bed Occupied"
+    device_class: occupancy
+    id: ${id}_bed_occupancy
+    # Checks to see if voltage is lower than the trigger level set via input number, if so it sets left bed side to occupied
+    lambda: |-
+      if (id(${id}_bed_sensor).state < id(${id}_bed_trigger_level).state) {
+        return true;
+      } else {
+        return false;
+      }

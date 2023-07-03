@@ -1,0 +1,14 @@
+---
+# I²C Bus
+#
+# This component sets up the I²C bus for the ESP32.
+#
+# GPIO defaults:
+#     esp32: SDA - GPIO21, SLC - GPIO22
+#   esp8266: SDA - GPIO4,  SLC - GPIO5
+#
+# https://esphome.io/components/i2c.html
+#
+i2c:
+  #sda: GPIO21
+  #scl: GPIO22

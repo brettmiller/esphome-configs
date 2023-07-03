@@ -1,0 +1,23 @@
+# On boad LED (for devices like the Lolin C3 mini)
+#
+# To use add:
+#
+# light:
+#   - << !include components/onboard_ws2812.yaml
+#
+#AND
+# substitutions:
+#   onboard_led_gpio: GPIO7
+#
+# GPIO7 is the LED pin on the C3 mini, set to boards LED pin
+
+platform: neopixelbus
+name: "${name} led"
+id: ${id}_led
+#restore_mode: ALWAYS_ON
+type: GRB
+variant: WS2812
+method: ESP32_RMT_1
+#method: ESP32_RMT
+num_leds: 1
+pin: ${onboard_led_gpio}

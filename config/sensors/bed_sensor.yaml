@@ -1,0 +1,19 @@
+---
+
+#Bed sensor 
+#
+# requires substitution "bed_sensor_gpio: <GPIO_PIN>" to be defined
+platform: adc
+name: ${name} Bed Sensor
+id: ${id}_bed_sensor
+icon: mdi:bed
+pin: ${bed_sensor_gpio}
+attenuation: 11db
+update_interval: 0.5s
+filters:
+  - sliding_window_moving_average:
+      window_size: 10
+      send_every: 1
+  - or:
+      - throttle: 180s
+      - delta: 0.02

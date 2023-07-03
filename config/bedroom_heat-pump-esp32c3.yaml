@@ -2,7 +2,7 @@
 substitutions:
   device_name: bedroom-heat-pump 
   device_id: bedroom_heat_pump 
-  description: Master bedroom heat pump
+  description: Primary bedroom heat pump
   name: Bedroom heat pump
 
 packages:
@@ -54,8 +54,9 @@ climate:
     # ESP32 only - change UART0 to UART1 or UART2 and remove the
     # logging:baud_rate above to allow the built-in UART0 to function for
     # logging. (default UART1: GPIO6-RX, GPIO7-TX)
-    hardware_uart: UART1
     #hardware_uart: UART0
+    hardware_uart: UART1
+    baud_rate: 9600
     # as of 2023-05-02 setting rx/tx pins requires develop branch of 
     # github://geoffdavis/esphome-mitsubishiheatpump@develop
     tx_pin: 7
