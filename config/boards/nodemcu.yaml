@@ -1,2 +1,4 @@
+# https://docs.platformio.org/en/latest/boards/espressif8266/nodemcuv2.html
+#
 esp8266:
   board: nodemcuv2

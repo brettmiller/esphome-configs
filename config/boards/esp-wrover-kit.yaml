@@ -1,2 +1,4 @@
+# https://docs.platformio.org/en/latest/boards/espressif32/esp-wrover-kit.html
+#
 esp32:
   board: esp-wrover-kit
