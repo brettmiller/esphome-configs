@@ -5,16 +5,18 @@
 substitutions:
   device_name: bedroom-multisensor0
   name: Primary Bedroom Multisensor0
-  id: primary_bedroom_multisensor0
+  device_id: primary_bedroom_multisensor0
   description: Primary bedroom bed, temp, light sensors
-  i2c_sda: GPIO8
-  i2c_slc: GPIO10
-  bed_sensor_gpio: GPIO0
-  onboard_led_gpio: GPIO7
+  i2c_sda: GPIO42
+  i2c_scl: GPIO41
+  #bed_sensor_gpio: GPIO13
+  #bed_sensor_gpio: A12 # (GPIO13)
+  bed_sensor_gpio: GPIO1
+  onboard_led_gpio: GPIO38
 
 packages:
   <<: !include_dir_named common
-  board: !include boards/lolin_c3_mini.yaml
+  board: !include boards/lolin_s3.yaml
   i2c: !include components/i2c.yaml
 
 esphome:
@@ -24,7 +26,7 @@ esphome:
     then:
       - delay: 2s
       - light.turn_on:
-          id: ${id}_led
+          id: ${device_id}_led
           brightness: 13%
           red: 0%
           green: 100%
@@ -43,17 +45,17 @@ sensor:
   - <<: !include sensors/bed_sensor.yaml
   - platform: homeassistant
     name: "${name} Bed Trigger Level"
-    id: "${id}_bed_trigger_level"
-    entity_id: input_number.${id}_bed_trigger_level
+    id: "${device_id}_bed_trigger_level"
+    entity_id: input_number.${device_id}_bed_trigger_level
 
 binary_sensor:
   - platform: template
     name: "${name} Bed Occupied"
     device_class: occupancy
-    id: ${id}_bed_occupancy
+    id: ${device_id}_bed_occupancy
     # Checks to see if voltage is lower than the trigger level set via input number, if so it sets left bed side to occupied
     lambda: |-
-      if (id(${id}_bed_sensor).state < id(${id}_bed_trigger_level).state) {
+      if (id(${device_id}_bed_sensor).state < id(${device_id}_bed_trigger_level).state) {
         return true;
       } else {
         return false;
