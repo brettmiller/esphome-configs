@@ -1,17 +1,12 @@
 # Common code for bluetooth proxies
 
-esphome:
-  name: ${device_name}
-#  name_add_mac_suffix: true # causes issues w/ being found for ota/logs
-  comment: ${description}
+packages:
+  <<: !include_dir_named ../common
 
 esp32:
   board: ${board}
   framework:
     type: esp-idf
-
-packages:
-  <<: !include_dir_named ../common
 
 # Enable logging
 logger:
