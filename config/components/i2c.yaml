@@ -1,7 +1,7 @@
 ---
 # I²C Bus
 #
-# This component sets up the I²C bus for the ESP32.
+# This component sets up the I²C bus using the default pins
 #
 # GPIO defaults:
 #     esp32: SDA - GPIO21, SLC - GPIO22
