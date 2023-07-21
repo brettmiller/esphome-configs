@@ -1,0 +1,7 @@
+{
+  "editor.defaultFormatter": "platformio.platformio-ide",
+
+  "files.associations": {
+    "*.yaml": "esphome"
+  }
+}
