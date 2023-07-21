@@ -9,3 +9,7 @@
 #### install ESPHome
 
 `pip3 install esphome`
+
+or upgrade
+
+`pip3 install --upgrade esphome`
