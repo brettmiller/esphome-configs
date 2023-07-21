@@ -1,0 +1,19 @@
+# To run esphome via Docker:
+# docker run --rm -v "${PWD}/config":/config -it esphome/esphome <COMMAND> config/<DEVICE_CONFIG>.yaml
+# 
+# Run the dashboard
+# docker run --rm -p 6052:6052 -e ESPHOME_DASHBOARD_USE_PING=true -v "${PWD}":/config -it esphome/esphome
+#
+
+#version: '3'
+services:
+  esphome:
+    container_name: esphome
+    image: esphome/esphome
+    volumes:
+      - ${PWD}/config:/config
+      - ${PWD}/cache:/cache
+      - /etc/localtime:/etc/localtime:ro
+    restart: always
+    privileged: true
+    network_mode: host
