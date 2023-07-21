@@ -1,0 +1,4 @@
+# restart button
+button:
+  - platform: restart
+    name: ${device_name} restart
