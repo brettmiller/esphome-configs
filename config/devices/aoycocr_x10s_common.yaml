@@ -8,6 +8,8 @@ packages:
 #logger:
 #  baud_rate: 0 #disable UART logging
 
+captive_portal:
+
 sensor:
   # Reports the Current, Voltage, and Power used by the plugged-in device (not counting this plug's own usage of about 0.8W/0.019A, so subtract those when calibrating with this plugged into a Kill-A-Watt type meter)
   - platform: hlw8012
