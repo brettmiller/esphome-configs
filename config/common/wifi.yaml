@@ -21,7 +21,7 @@ wifi:
     ssid: "${device_name}_ap"
     password: "${wifi_ap_password}"
 
-captive_portal:
+#captive_portal:
 
 sensor:
   - <<: !include ../sensors/wifi_signal_percentage.yaml
