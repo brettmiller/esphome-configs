@@ -114,7 +114,7 @@ binary_sensor:
       mode:
         input: true
         pullup: true
-    name: Assistant0 Action
+    name: ${name} Action
     on_multi_click:
       - timing:
           - ON FOR AT MOST 350ms
