@@ -1,6 +1,6 @@
 ---
 
-#Bed sensor
+#Bed sensor - FSR (force sensitive resistor)
 #
 # requires substitution "bed_sensor_gpio: <GPIO_PIN>" to be defined
 platform: adc
