@@ -97,6 +97,8 @@ binary_sensor:
           condition: voice_assistant.is_running
           then:
             - voice_assistant.stop:
+            - light.turn_off:
+                id: led
           else:
             - voice_assistant.start_continuous:
             #- light.turn_on:
