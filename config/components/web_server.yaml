@@ -8,18 +8,12 @@
 #
 # https://esphome.io/components/web_server.html
 
-# !!!! THIS DOESN'T CURRENTLY WORK, b/c of issuse with secrets (and the include?) !!!!
-
-substitutions:
-  web_server_username: esphome
-# Below needs to be set in the yaml this file is included from
-# so it can get the secret from the included common/secret.yaml
-#  web_server_password: !secret esphome_web_server_password
-
-<<: !include ../common/secrets.yaml
+# to resolve issues with secrets, added a secrets.yaml file in the same directory
+# as this file with '<<: !included ../common/secret.yaml'
+# trying that here didn't work ¯\_(ツ)_/¯
 
 web_server:
   id: component_web_server
   auth:
-    username: "${web_server_username}"
-    password: ${esphome_web_server_password} # "${web_server_password}"
+    username: !secret web_server_username
+    password: !secret esphome_web_server_password
