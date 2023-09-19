@@ -1,0 +1,11 @@
+# M5Stack Atom
+#
+# https://docs.platformio.org/en/latest/boards/espressif32/m5stack-atoms3.html
+#
+# AtomS3 Lite is the same as the non Lite w/o the display
+#
+esp32:
+  board: m5stack-atoms3
+  #variant: esp32s3
+  framework:
+    type: arduino
