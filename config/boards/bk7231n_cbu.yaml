@@ -1,0 +1,8 @@
+---
+# Beken(Tuya) bk7231n cbu
+# https://docs.libretiny.eu/boards/cbu/
+# https://docs.platformio.org/en/latest/boards/libretiny/cbu.html (not working as of 2023-09-14)
+
+bk72xx:
+  board: cbu
+  #board: generic-bk7231n-qfn32-tuya

@@ -1,0 +1,62 @@
+# Common code for Outon S1 Lamp
+
+packages:
+  <<: !include_dir_named ../common
+  board: !include ../boards/bk7231n_cbu.yaml
+  webserver: !include ../components/web_server.yaml
+
+logger:
+#web_server:
+captive_portal:
+mdns:
+
+debug:
+  update_interval: 30s
+
+text_sensor:
+  - platform: debug
+    reset_reason:
+      name: Reset Reason
+  - platform: libretiny
+    version:
+      name: LibreTiny Version
+
+sensor:
+  - platform: uptime
+    name: Uptime
+
+output:
+  - platform: libretiny_pwm
+    id: output_cold
+    pin: P7
+  - platform: libretiny_pwm
+    id: output_warm
+    pin: P8
+
+  - platform: libretiny_pwm
+    id: output_red
+    pin: P24 #P9  P6 *P24 P9 P24 P6
+  - platform: libretiny_pwm
+    id: output_green
+    pin: P6  #P24 P9 *P6  P6  P9 P24
+  - platform: libretiny_pwm
+    id: output_blue
+    pin: P9  #P6 P24 *P9 P24 P6 P9
+
+light:
+  - platform: cwww
+    id: light_cwww
+    name: ${name} Light
+    restore_mode: RESTORE_DEFAULT_OFF
+    cold_white_color_temperature: 6500 K
+    warm_white_color_temperature: 2700 K
+    cold_white: output_cold
+    warm_white: output_warm
+
+  - platform: rgb
+    id: light_rgb
+    name: ${name} RGB
+    red: output_red
+    green: output_green
+    blue: output_blue
+

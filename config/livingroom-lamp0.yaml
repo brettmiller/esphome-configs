@@ -1,0 +1,81 @@
+substitutions:
+  device_name: livingroom-lamp0
+  name: Living Room Lamp0
+  #device_id: livingroom_lamp0
+  description: Living room Outon S1 lamp
+
+packages:
+  device: !include devices/outon-s1-lamp.yaml
+  #web_server: !include components/web_server.yaml
+
+#### Pin scan (from libretiny esphome-kickstart)
+#external_components:
+#  source: github://libretiny-eu/esphome-kickstart
+#  components:
+#    - pinscan
+#    - hub_api
+#
+#pinscan:
+#  id: scanner
+#  pin_state_sensor:
+#    name: -> Pin State
+#
+#select:
+#  - platform: template
+#    id: mode
+#    name: -> Pin Mode
+#    options:
+#    - INPUT
+#    - INPUT_PULLUP
+#    - OUTPUT_HIGH
+#    - OUTPUT_LOW
+#    optimistic: true
+#    on_value:
+#    - then:
+#      - pinscan.set_mode:
+#          id: scanner
+#          mode: !lambda |-
+#            return id(mode).active_index().value();
+#    disabled_by_default: false
+#    update_interval: 60s
+#    initial_option: INPUT
+#
+#  - platform: template
+#    id: pin
+#    name: -> Pin
+#    optimistic: true
+#    on_value:
+#    - then:
+#      - pinscan.set_pin:
+#          id: scanner
+#          pin: !lambda |-
+#            return id(pin).active_index().value() - 1;
+#      - pinscan.set_mode:
+#          id: scanner
+#          mode: !lambda |-
+#            return id(mode).active_index().value();
+#    options:
+#    - Select PIN
+#    - P0 / UART2_TX / I2C2_SCL
+#    - P1 / UART2_RX / I2C2_SDA
+#    - P6 / PWM0
+#    - P7 / PWM1
+#    - P8 / PWM2
+#    - P9 / PWM3
+#    - P10 / UART1_RX
+#    - P11 / UART1_TX
+#    - P14 / SCK
+#    - P15 / CS
+#    - P16 / MOSI
+#    - P17 / MISO
+#    - P20 / I2C1_SCL / TCK
+#    - P21 / I2C1_SDA / TMS
+#    - P22 / TDI
+#    - P23 / TDO / ADC3
+#    - P24 / PWM4
+#    - P26 / PWM5
+#    - P28
+#    disabled_by_default: false
+#    update_interval: 60s
+#    initial_option: Select PIN
+#
