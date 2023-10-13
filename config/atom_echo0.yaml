@@ -5,22 +5,37 @@ substitutions:
 
 packages:
   <<: !include_dir_named common
-  board: !include boards/m5stack-atom.yaml
+
+esp32:
+  board: m5stack-atom
+  framework:
+    type: esp-idf
 
 esphome:
+  #name: m5stack-atom-echo
+  #friendly_name: M5Stack Atom Echo
+  #name_add_mac_suffix: true
   project:
-    name: m5stack.atom-echo
+    name: m5stack.atom-echo-voice-assistant
     version: "1.0"
-  min_version: 2023.5.0
-  #on_boot:
-  #  then:
-  #    - media_player.volume_set: 100%
-  #    - media_player.play_media: 'https://ha.i.shadowed.net/api/tts_proxy/1ec123bde89c72541bc0e4d8e15baac0ff146637_en-us_a877e2b3bf_tts.piper.wav'
+  min_version: 2023.10.0b1
+  on_boot:
+    - priority: -100
+      then:
+        - wait_until: api.connected
+        - delay: 1s
+        - if:
+            condition:
+              switch.is_on: use_wake_word
+            then:
+              - voice_assistant.start_continuous:
 
 logger:
 
 dashboard_import:
   package_import_url: github://esphome/firmware/voice-assistant/m5stack-atom-echo.yaml@main
+
+improv_serial:
 
 i2s_audio:
   i2s_lrclk_pin: GPIO33
@@ -41,77 +56,83 @@ speaker:
     mode: mono
 
 voice_assistant:
+  id: va
   microphone: echo_microphone
   speaker: echo_speaker
-  #on_start:
+  noise_suppression_level: 2
+  auto_gain: 31dBFS
+  volume_multiplier: 2.0
+  vad_threshold: 3
   on_listening:
     - light.turn_on:
         id: led
         blue: 100%
         red: 0%
         green: 0%
-        effect: none
+        brightness: 100%
+        effect: pulse
   on_tts_start:
     - light.turn_on:
         id: led
         blue: 0%
         red: 0%
         green: 100%
-        effect: none
-  on_tts_end:
-    - delay: 0.5s
-    - light.turn_on:
-        id: led
-        blue: 0%
-        red: 0%
-        green: 100%
+        brightness: 100%
         effect: pulse
   on_end:
-    - delay: 1s
+    - delay: 100ms
     - wait_until:
         not:
           speaker.is_playing:
-    - light.turn_off: led
+    - script.execute: reset_led
   on_error:
     - light.turn_on:
         id: led
         blue: 0%
         red: 100%
         green: 0%
+        brightness: 100%
         effect: none
     - delay: 1s
-    - light.turn_off: led
-
+    - script.execute: reset_led
+    - script.wait: reset_led
+    - lambda: |-
+        if (code == "wake-provider-missing" || code == "wake-engine-missing") {
+          id(use_wake_word).turn_off();
+        }
 
 binary_sensor:
   - platform: gpio
     pin:
       number: GPIO39
       inverted: true
-    name: Assist Button
+    name: Button
     disabled_by_default: true
     entity_category: diagnostic
     id: echo_button
     on_click:
       - if:
-          condition: voice_assistant.is_running
+          condition:
+            switch.is_off: use_wake_word
           then:
-            - voice_assistant.stop:
-            - light.turn_off:
-                id: led
+            - if:
+                condition: voice_assistant.is_running
+                then:
+                  - voice_assistant.stop:
+                  - script.execute: reset_led
+                else:
+                  - voice_assistant.start:
           else:
+            - voice_assistant.stop
+            - delay: 1s
+            - script.execute: reset_led
+            - script.wait: reset_led
             - voice_assistant.start_continuous:
-            #- light.turn_on:
-            #    id: led
-            #    blue: 100%
-            #    red: 0%
-            #    green: 0%
-            #    effect: pulse
 
 light:
   - platform: esp32_rmt_led_strip
     id: led
-    name: none
+    name: None
     disabled_by_default: true
     entity_category: config
     pin: GPIO27
@@ -124,3 +145,49 @@ light:
       - pulse:
           transition_length: 250ms
           update_interval: 250ms
+
+script:
+  - id: reset_led
+    then:
+      - if:
+          condition:
+            switch.is_on: use_wake_word
+          then:
+            - light.turn_on:
+                id: led
+                blue: 100%
+                red: 100%
+                green: 0%
+                brightness: 100%
+                effect: none
+          else:
+            - light.turn_off: led
+
+switch:
+  - platform: template
+    name: Use wake word
+    id: use_wake_word
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_ON
+    entity_category: config
+    on_turn_on:
+      - lambda: id(va).set_use_wake_word(true);
+      - if:
+          condition:
+            not:
+              - voice_assistant.is_running
+          then:
+            - voice_assistant.start_continuous
+      - script.execute: reset_led
+    on_turn_off:
+      - voice_assistant.stop
+      - lambda: id(va).set_use_wake_word(false);
+      - script.execute: reset_led
+
+external_components:
+  - source: github://pr#5230
+    components:
+      - esp_adf
+    refresh: 0s
+
+esp_adf:
