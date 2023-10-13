@@ -5,7 +5,9 @@ packages:
   board: !include ../boards/bk7231n_cbu.yaml
   webserver: !include ../components/web_server.yaml
 
+# ensure logger isn't using serial port, needed for UART
 logger:
+  baud_rate: 0
 #web_server:
 captive_portal:
 mdns:
@@ -24,6 +26,13 @@ text_sensor:
 sensor:
   - platform: uptime
     name: Uptime
+
+# logger must not be using serial port (tx/rx pins)
+#uart:
+#  rx_pin: GPIO10
+#  tx_pin: GPIO11
+#  baud_rate: 9600
+#tuya:
 
 output:
   - platform: libretiny_pwm
