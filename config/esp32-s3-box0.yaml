@@ -36,8 +36,6 @@ esp32:
 
 logger:
   hardware_uart: USB_SERIAL_JTAG
-api:
-ota:
 
 dashboard_import:
   package_import_url: github://esphome/firmware/voice-assistant/esp32-s3-box.yaml@main
@@ -93,8 +91,12 @@ light:
     default_transition_length: 0s
     effects:
       - pulse:
+          #transition_length: 250ms
+          #update_interval: 250ms
           transition_length: 250ms
-          update_interval: 250ms
+          update_interval: 750ms
+          min_brightness: 10%
+          max_brightness: 75%
       - pulse:
           name: Fast Pulse
           transition_length: 50ms
@@ -191,3 +193,38 @@ external_components:
 psram:
   mode: octal
   speed: 80MHz
+
+spi:
+  clk_pin: GPIO7
+  mosi_pin: GPIO6
+
+display:
+  - platform: ili9xxx
+    model: S3BOX
+    cs_pin: GPIO5
+    dc_pin: GPIO4
+    reset_pin: GPIO48
+    id: lcd
+    lambda: |-
+      it.fill(Color(255, 255, 255));
+      it.strftime(160, 85, id(font_time), Color::BLACK, TextAlign::CENTER, "%I:%M:%S %p", id(time_ha).now());
+      it.strftime(160, 170, id(font_date), Color::BLACK, TextAlign::CENTER, "%Y-%m-%d", id(time_ha).now());
+
+font:
+  - file: "gfonts://Roboto"
+    id: font_time
+    size: 55
+    #size: 60
+    glyphs: "0123456789AMP:- "
+  - file: "gfonts://Roboto"
+    id: font_date
+    size: 50
+    glyphs: "0123456789.- "
+  - file: "gfonts://Roboto"
+    id: font_small
+    size: 20
+
+time:
+  - platform: homeassistant
+    id: time_ha
+    #timezone: Europe/Berlin
