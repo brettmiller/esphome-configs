@@ -20,7 +20,7 @@ packages:
   i2c: !include components/i2c.yaml
 
 esphome:
-  # turn on onboad led to green w/ brightness %
+  # turn on onboad led to red w/ brightness %
   # (dimmest is 11%, 12% turns on more reliably, off ≤ 10%)
   on_boot:
     priority: 600 # default
