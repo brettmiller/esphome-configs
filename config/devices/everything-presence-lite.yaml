@@ -1,0 +1,5 @@
+# remote package documentation: https://esphome.io/guides/configuration-types#remote-git-packages
+#
+# Pull the Everything Presence Lite config from github
+packages:
+  remote_package: github://EverythingSmartHome/everything-presence-lite/everything-presence-lite-ha.yaml@main
