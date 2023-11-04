@@ -9,3 +9,5 @@ esphome:
   name: ${device_name}
   comment: ${description}
   build_path: ../.build/${device_name}
+  name_add_mac_suffix: False
+
