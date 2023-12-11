@@ -4,8 +4,8 @@
 # This component sets up the I²C bus using the default pins
 #
 # GPIO defaults:
-#     esp32: SDA - GPIO21, SLC - GPIO22
-#   esp8266: SDA - GPIO4,  SLC - GPIO5
+#     esp32: SDA - GPIO21, SCL - GPIO22
+#   esp8266: SDA - GPIO4,  SCL - GPIO5
 #
 # https://esphome.io/components/i2c.html
 #
