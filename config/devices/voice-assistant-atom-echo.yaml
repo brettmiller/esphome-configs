@@ -1,0 +1,5 @@
+# remote package documentation: https://esphome.io/guides/configuration-types#remote-git-packages
+#
+# Pull the M5Stack Atom Echo voice-assistant config from github
+packages:
+  remote_package: github://esphome/firmware/voice-assistant/m5stack-atom-echo.yaml@main
