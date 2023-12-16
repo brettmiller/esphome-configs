@@ -1,0 +1,38 @@
+---
+substitutions:
+  device_name: diningroom-epl
+  description: Dining Room Everything Presence Lite
+  name: ${device_name}
+  friendly_name: Dining Room EPL
+  ld2450_tx_pin: GPIO17
+  ld2450_rx_pin: GPIO16
+  i2c_sda: GPIO21
+  i2c_scl: GPIO22
+  illuminance_update_interval: "2s"
+  
+#<<: !include components/ld2450.yaml
+#<<: !include components/ld2450-compact.yaml
+#<<: !include components/ld2450-pr5674.yaml
+
+#<<: !include devices/everything-presence-lite.yaml
+
+packages:
+  <<: !include_dir_named common
+  i2c: !include components/i2c.yaml
+  # using moded code, not pulling from github so can't include as a package included 
+  # at a higher level below
+  <<: !include devices/everything-presence-lite.yaml
+
+#<<: !include devices/everything-presence-lite.yaml
+
+#<<: !include components/web_server.yaml
+
+esphome:
+  name_add_mac_suffix: False
+
+esp32:
+  board: esp32dev
+
+#Enable logging
+logger:
+#  baud_rate: 0 #disable UART logging
