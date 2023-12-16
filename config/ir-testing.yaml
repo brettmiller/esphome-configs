@@ -2,18 +2,21 @@ substitutions:
   device_name: esp32-ir
   name: esp32-ir0
   description: esphome IR recieve/transmit testing
-  board: lolin_c3_mini
+  #board: m5stack-atoms3
   #board: esp32c3
 
 packages:
   <<: !include_dir_named common
+  #board: !include boards/m5stack-atoms3.yaml
+  web_server: !include components/web_server.yaml
 
 esp32:
-  board: ${board}
-  #framework:
-  #  type: esp-idf
+  #board: ${board}
+  board: esp32-s3-devkitc-1
+#  #framework:
+#  #  type: esp-idf
 
-web_server:
+#web_server:
 
 # captive portal only works w/ arduino framework
 #captive_portal:
@@ -49,7 +52,7 @@ logger:
 #  #buffer_size: 2kb
 
 remote_transmitter:
-  pin: 6
+  pin: 4
   # RF uses a 100% carrier signal
   carrier_duty_percent: 50%
 

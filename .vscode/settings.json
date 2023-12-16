@@ -1,7 +1,7 @@
 {
-  "editor.defaultFormatter": "platformio.platformio-ide",
-
   "files.associations": {
     "*.yaml": "esphome"
-  }
+  },
+
+  "editor.defaultFormatter": "ESPHome.esphome-vscode"
 }
