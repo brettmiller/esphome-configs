@@ -1,0 +1,5 @@
+# https://docs.platformio.org/en/latest/boards/espressif32/esp32doit-devkit-v1.html
+#
+esp32:
+  board: esp32doit-devkit-v1
+
