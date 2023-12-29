@@ -1,0 +1,8 @@
+substitutions:
+  device_name: usb-switch0
+  device_id: usb_switch0
+  name: USB Switch 0
+  description: Sinilink XY-WFUSB USB Switch Relay
+
+packages:
+  device: !include devices//xy-wfusb.yaml
