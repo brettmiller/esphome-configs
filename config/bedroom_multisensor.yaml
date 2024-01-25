@@ -12,6 +12,7 @@ substitutions:
   #bed_sensor_gpio: GPIO13
   #bed_sensor_gpio: A12 # (GPIO13)
   bed_sensor_gpio: GPIO1
+  bed_sensor_delta: '1.5'
   onboard_led_gpio: GPIO38
 
 packages:

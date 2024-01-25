@@ -1,4 +1,7 @@
 ---
+# Requires substitution in main config. ex:
+# substitutions:
+#   bed_sensor_delta: '0.02'
 
 #Bed sensor - FSR (force sensitive resistor)
 #
@@ -16,4 +19,5 @@ filters:
       send_every: 1
   - or:
       - throttle: 180s
-      - delta: 0.02
+      #- delta: 0.02
+      - delta: ${bed_sensor_delta}
