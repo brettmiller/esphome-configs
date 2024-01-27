@@ -15,8 +15,11 @@ platform: shtcx
 temperature:
   id: sensor_temperature
   name: "${name} Temperature"
+  filter:
+    # filter changes not greater than 0.4 (so at least .5)
+    - delta: 0.4
 humidity:
   id: sensor_humidity
   name: "${name} Humidity"
-# update_interval defaults to 60s   
+# update_interval defaults to 60s
 #update_interval: 300s
