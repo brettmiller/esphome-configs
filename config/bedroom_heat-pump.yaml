@@ -1,7 +1,7 @@
 
 substitutions:
-  device_name: bedroom-heat-pump 
-  device_id: bedroom_heat_pump 
+  device_name: bedroom-heat-pump
+  device_id: bedroom_heat_pump
   description: Primary bedroom heat pump
   name: Bedroom heat pump
 
@@ -15,6 +15,12 @@ external_components:
 esphome:
   name: ${device_name}
   comment: ${description}
+  # Set platform options to use c++ 17 instead of 11
+  platformio_options:
+    build_unflags:
+      - "-std=gnu++11"
+    build_flags:
+      - "-std=gnu++17"
   #on_boot:
   #  then:
   #    - delay: 2s
@@ -44,7 +50,7 @@ logger:
 #    num_leds: 1
 #    pin: GPIO7
 #    name: "Bedroom heatpump led"
-#    # hack to reduce brightness, now set using 'on_boot:' 
+#    # hack to reduce brightness, now set using 'on_boot:'
 #    #color_correct: [11%, 11%, 11%]
 
 climate:
@@ -57,7 +63,7 @@ climate:
     # logging. (default UART1: GPIO6-RX, GPIO7-TX)
     hardware_uart: UART1
     #hardware_uart: UART0
-    # as of 2023-05-02 setting rx/tx pins requires develop branch of 
+    # as of 2023-05-02 setting rx/tx pins requires develop branch of
     # github://geoffdavis/esphome-mitsubishiheatpump@develop
     #tx_pin: 7
     #rx_pin: 6
