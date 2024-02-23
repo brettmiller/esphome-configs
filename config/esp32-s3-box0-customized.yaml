@@ -1,0 +1,75 @@
+---
+# esp32-s3-box Voice assistant using the "ready made project" yaml via "remote_packge"
+# and adding customizations (using !extend overrides)
+#
+substitutions:
+  device_name: "esp32-s3-box0"
+  name: "ESP32 S3 Box 0"
+  description: "ESP32 S3 Box Voice Assistant"
+  use_transparency: "true"
+  micro_wake_word_model: hey_jarvis
+
+packages:
+  <<: !include_dir_named common
+  device: !include devices/voice-assistant-esp32-box.yaml 
+
+color:
+  - id: dark_purple
+    hex: 582cb0
+    #hex: 6432c8
+  - id: medium_purple
+    hex: a65dde
+  - id: light_purple
+    hex: deadf5
+  - id: red
+    hex: FF2D00
+
+display:
+  - platform: ili9xxx
+    id: !extend s3_box_lcd
+    model: S3BOX
+    data_rate: 40MHz
+    cs_pin: 5
+    dc_pin: 4
+    reset_pin: 48
+    pages:
+      - id: !extend idle_page
+        lambda: |-
+          it.fill(id(idle_color));
+          it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_idle), ImageAlign::CENTER);
+          it.strftime((it.get_width() / 2), 20, id(font_time), Color::WHITE, TextAlign::CENTER, "%I:%M %p", id(time_ha).now());
+          it.strftime((it.get_width() / 2), (it.get_height()-20), id(font_date), light_purple, TextAlign::CENTER, "%Y-%m-%d", id(time_ha).now());
+         # it.strftime((it.get_width() / 2), (it.get_height() / 50), id(font_time), Color::WHITE, TextAlign::CENTER, "%I:%M %p", id(time_ha).now());
+         # it.strftime(160, 85, id(font_time), Color::WHITE, TextAlign::CENTER, "%I:%M %p", id(time_ha).now());
+      - id: !extend muted_page
+        lambda: |-
+          it.fill(red);
+          it.print((it.get_width() / 2), (it.get_height() / 2), id(font_date), Color::BLACK, TextAlign::CENTER, "MUTED");
+          it.strftime((it.get_width() / 2), 20, id(font_time), Color::WHITE, TextAlign::CENTER, "%I:%M %p", id(time_ha).now());
+          it.strftime((it.get_width() / 2), (it.get_height()-20), id(font_date), light_purple, TextAlign::CENTER, "%Y-%m-%d", id(time_ha).now());
+
+font:
+  - file: "gfonts://Roboto"
+    id: font_time
+    size: 45
+    #size: 60
+    glyphs: "0123456789AMP:- "
+  - file: "gfonts://Roboto"
+    id: font_date
+    size: 40
+    glyphs: "0123456789.- MUTE"
+  - file: "gfonts://Roboto"
+    id: font_small
+    size: 20
+
+time:
+  - platform: homeassistant
+    id: time_ha
+    #timezone: Europe/Berlin
+    # update screen every minute so time/date are refreshed
+#    on_time:
+#      # Every 1 minutes 
+#      - seconds: 0
+#        minutes: /1
+#        then:
+#          - script.execute: draw_display
