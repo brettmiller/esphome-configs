@@ -67,9 +67,9 @@ time:
     id: time_ha
     #timezone: Europe/Berlin
     # update screen every minute so time/date are refreshed
-#    on_time:
-#      # Every 1 minutes 
-#      - seconds: 0
-#        minutes: /1
-#        then:
-#          - script.execute: draw_display
+    on_time:
+      # Every 1 minutes 
+      - seconds: 0
+        minutes: /1
+        then:
+          - script.execute: draw_display
