@@ -12,4 +12,3 @@ substitutions:
 
 <<: !include devices/aoycocr_x10s_common.yaml
 
-logger:
