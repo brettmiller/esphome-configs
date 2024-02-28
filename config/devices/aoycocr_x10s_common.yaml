@@ -5,7 +5,7 @@ packages:
   board: !include ../boards/esp01_1m.yaml
 
 ## Enable logging
-#logger:
+logger:
 #  baud_rate: 0 #disable UART logging
 
 captive_portal:
