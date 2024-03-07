@@ -2,4 +2,5 @@
 #
 # Pull the M5Stack Atom Echo voice-assistant config from github
 packages:
-  remote_package: github://esphome/firmware/voice-assistant/m5stack-atom-echo.yaml@main
+  #remote_package: github://esphome/firmware/voice-assistant/m5stack-atom-echo.yaml@main
+  remote_package: github://esphome/firmware/wake-word-voice-assistant/m5stack-atom-echo.yaml@main

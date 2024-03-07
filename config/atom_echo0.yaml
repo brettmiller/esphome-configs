@@ -2,6 +2,7 @@ substitutions:
   device_name: "m5stack-atom-echo0"
   name: "M5Stack Atom Echo 0"
   description: M5Stack Atom Echo Voice Assistant
+  micro_wake_word_model: hey_jarvis
 
 packages:
   <<: !include_dir_named common
