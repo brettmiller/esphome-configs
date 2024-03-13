@@ -11,7 +11,7 @@ substitutions:
 
 packages:
   <<: !include_dir_named common
-  device: !include devices/voice-assistant-esp32-box.yaml 
+  device: !include devices/voice-assistant-esp32-box.yaml
 
 color:
   - id: dark_purple
@@ -68,7 +68,7 @@ time:
     #timezone: Europe/Berlin
     # update screen every minute so time/date are refreshed
     on_time:
-      # Every 1 minutes 
+      # Every 1 minutes
       - seconds: 0
         minutes: /1
         then:
