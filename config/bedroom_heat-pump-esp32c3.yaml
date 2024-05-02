@@ -15,6 +15,12 @@ external_components:
 esphome:
   name: ${device_name}
   comment: ${description}
+  # Set platform options to use c++ 17 instead of 11
+  platformio_options:
+    build_unflags:
+      - "-std=gnu++11"
+    build_flags:
+      - "-std=gnu++17"
   #on_boot:
   #  then:
   #    - delay: 2s
