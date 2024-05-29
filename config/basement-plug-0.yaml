@@ -1,10 +1,9 @@
 substitutions:
-  device_name: edan-plug-fan
-  name: Edan Fan
-  description: Edan's Fan Plug (Cloudfree SmartPlug2)
+  device_name: basement-plug-0
+  name: Basement Plug 0
+  description: Basement Plug (Cloudfree SmartPlug2)
   switch_restore_mode: ALWAYS_OFF
   #switch_restore_mode: RESTORE_DEFAULT_OFF
-  #ipaddress: 192.168.1.200
   #wattage_calibration: 67.6 -> 11.0
   #amperage_calibration: 0.12 -> 0.08
   #voltage_calibration1: 0.0 -> 0.0
