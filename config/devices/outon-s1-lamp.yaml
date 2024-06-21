@@ -11,7 +11,6 @@ logger:
 #web_server:
 captive_portal:
 mdns:
-
 debug:
   update_interval: 30s
 
@@ -42,16 +41,6 @@ output:
     id: output_warm
     pin: P8
 
-  - platform: libretiny_pwm
-    id: output_red
-    pin: P24 #P9  P6 *P24 P9 P24 P6
-  - platform: libretiny_pwm
-    id: output_green
-    pin: P6  #P24 P9 *P6  P6  P9 P24
-  - platform: libretiny_pwm
-    id: output_blue
-    pin: P9  #P6 P24 *P9 P24 P6 P9
-
 light:
   - platform: cwww
     id: light_cwww
@@ -62,9 +51,10 @@ light:
     cold_white: output_cold
     warm_white: output_warm
 
-  - platform: rgb
-    id: light_rgb
+# https://esphome.io/components/light/beken_spi_led_strip 
+  - platform: beken_spi_led_strip
     name: ${name} RGB
-    red: output_red
-    green: output_green
-    blue: output_blue
+    rgb_order: RGB
+    pin: P16
+    num_leds: 32
+    chipset: ws2812
