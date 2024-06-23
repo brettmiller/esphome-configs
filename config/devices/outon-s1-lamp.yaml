@@ -26,12 +26,19 @@ sensor:
   - platform: uptime
     name: Uptime
 
-# logger must not be using serial port (tx/rx pins)
-#uart:
-#  rx_pin: GPIO10
-#  tx_pin: GPIO11
-#  baud_rate: 9600
-#tuya:
+## seems to work, nfi what it's measuring
+#  - platform: adc
+#    pin: ADC3
+#    name: unknown_adc
+#    raw: true
+#    update_interval: 30s
+
+## logger must not be using serial port (tx/rx pins)
+# uart:
+#   rx_pin: GPIO10
+#   tx_pin: GPIO11
+#   baud_rate: 9600
+# tuya:
 
 output:
   - platform: libretiny_pwm
