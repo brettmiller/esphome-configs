@@ -1,14 +1,17 @@
-# remote package documentation: https://esphome.io/guides/configuration-types#remote-git-packages
+---
+# remote package documentation:
+# https://esphome.io/guides/configuration-types#remote-git-packages
 #
 # Pull the M5Stack Atom Echo voice-assistant config from github
 packages:
-  #remote_package: github://esphome/firmware/voice-assistant/m5stack-atom-echo.yaml@main
+  # remote_package: github://esphome/firmware/voice-assistant/m5stack-atom-echo.yaml@main
+  # as of 2024-06-22 below just references ^ (w/o micro wake word support)
   remote_package: github://esphome/firmware/wake-word-voice-assistant/m5stack-atom-echo.yaml@main
 
 # :(  This feature is only available with frameworks ['arduino'].
-#media_player:
-#  - platform: i2s_audio
-#    id: echo_speaker
-#    i2s_dout_pin: GPIO22
-#    dac_type: external
-#    mode: mono
+# media_player:
+#   - platform: i2s_audio
+#     id: echo_speaker
+#     i2s_dout_pin: GPIO22
+#     dac_type: external
+#     mode: mono
