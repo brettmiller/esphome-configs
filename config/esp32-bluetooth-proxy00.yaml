@@ -1,7 +1,8 @@
+---
 substitutions:
   device_name: esp32-bluetooth-proxy00
   name: bt-proxy00
   description: esphome bluetooth proxy
   board: esp32doit-devkit-v1
 
-<<: !include components/bluetooth_proxy.yaml
+<<: !include components/bluetooth_proxy+tracker.yaml

@@ -9,9 +9,12 @@ substitutions:
   use_transparency: "true"
   micro_wake_word_model: hey_jarvis
 
+
 packages:
   <<: !include_dir_named common
   device: !include devices/voice-assistant-esp32-box.yaml
+
+#<<: !include components/bluetooth_proxy+tracker.yaml
 
 color:
   - id: dark_purple
