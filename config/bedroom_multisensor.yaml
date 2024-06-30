@@ -20,6 +20,8 @@ packages:
   board: !include boards/lolin_s3.yaml
   i2c: !include components/i2c.yaml
 
+<<: !include components/bluetooth_proxy+tracker.yaml
+
 esphome:
   # turn on onboad led to red w/ brightness %
   # (dimmest is 11%, 12% turns on more reliably, off ≤ 10%)
