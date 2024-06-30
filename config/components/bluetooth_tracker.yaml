@@ -1,0 +1,28 @@
+# Common code for bluetooth proxies
+---
+esp32_ble_tracker:
+  scan_parameters:
+    interval: 211ms  # default 320ms
+    window: 120ms    # default 30ms
+    active: true
+    # default scan interval may be to intensive
+    # scan_parameters:
+    #   interval: 1100ms
+    #   window: 1100ms
+    #   active: true
+
+# sensor:
+#   - platform: ble_rssi
+#     name: "Brett phone rssi"
+#     ibeacon_uuid: 'b13000e3-f702-495f-8f61-881185085b13'
+#   - platform: ble_rssi
+#     name: "Brett watch rssi"
+#     ibeacon_uuid: 'eaa49eb9-9bd5-4463-8ddd-0e7cd0d5131d'
+#
+# binary_sensor:
+#   - platform: ble_presence
+#     name: "Brett phone"
+#     ibeacon_uuid: 'b13000e3-f702-495f-8f61-881185085b13'
+#   - platform: ble_presence
+#     name: "Brett watch"
+#     ibeacon_uuid: 'eaa49eb9-9bd5-4463-8ddd-0e7cd0d5131d'

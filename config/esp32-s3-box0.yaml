@@ -1,8 +1,12 @@
 ---
+# esp32-s3-box Voice assistant using the "ready made project" yaml
+# via "remote_packge"
 substitutions:
   device_name: "esp32-s3-box0"
   name: "ESP32 S3 Box 0"
   description: ESP32 S3 Box Voice Assistant
+  use_transparency: "true"
+  micro_wake_word_model: hey_jarvis
 
 packages:
   <<: !include_dir_named common

@@ -23,6 +23,8 @@ packages:
   # at a higher level below
   <<: !include devices/everything-presence-lite.yaml
 
+<<: !include components/bluetooth_proxy+tracker.yaml
+
 #<<: !include devices/everything-presence-lite.yaml
 
 #<<: !include components/web_server.yaml

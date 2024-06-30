@@ -1,0 +1,11 @@
+---
+# https://yamllint.readthedocs.io/en/stable/configuration.html#default-configuration
+
+extends: default
+
+rules:
+  line-length:
+    level: warning
+    allow-non-breakable-words: true
+    allow-non-breakable-inline-mappings: true
+

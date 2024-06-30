@@ -8,7 +8,29 @@ packages:
   <<: !include_dir_named common
   device: !include devices/voice-assistant-atom-echo.yaml
 
-<<: !include components/bluetooth_tracker.yaml
+# ble_tracker takes too long and gets disabled even w/ the esphome.platformio_options & esp32_ble_tracker mods below
+# maybe test on an esp32-s3? 🤷‍♂️
+#<<: !include components/bluetooth_tracker.yaml
+
+# logger:
+#   level: VERBOSE
+# text_sensor:
+#   - platform: ble_scanner
+#     name: "BLE Devices Scanner"
+
+# esphome:
+#   platformio_options:
+#     # build_unflags:
+#     #   - "-DBTA_DISABLE_DELAY=200"
+#     build_flags:
+#       - "-DBTA_DISABLE_DELAY=1000"
+# 
+# # modified interval and window from included component & active false
+# esp32_ble_tracker:
+#   scan_parameters:
+#     interval: 500ms # default 320ms
+#     window: 120ms   # default 30ms
+#     active: False
 
 #esp32:
 #  board: m5stack-atom
