@@ -1,0 +1,138 @@
+#
+# substitutions:
+#  ld2450_tx_pin: <TX GPIO PIN>
+#  ld2450_rx_pin: <RX GPIO PIN>
+#
+
+external_components:
+  - source:
+      type: git
+      url: https://github.com/uncle-yura/esphome-ld2450
+      ref: master
+    components: [ ld2450 ]
+
+# Enable logging
+logger:
+  baud_rate: 0
+
+uart:
+  id: uart_bus
+  tx_pin: 
+    number: ${ld2450_tx_pin}
+  rx_pin: 
+    number: ${ld2450_rx_pin}
+  baud_rate: 256000
+  parity: NONE
+  stop_bits: 1
+
+ld2450:
+  uart_id: uart_bus
+  update_interval: 1s
+
+binary_sensor:
+- platform: ld2450
+  has_target:
+    name: Presence
+  has_moving_target:
+    name: Moving Target
+  has_still_target:
+    name: Still Target
+
+text_sensor:
+  - platform: ld2450
+    version:
+      name: "FW"
+    mac_address:
+      name: "MAC address"
+
+button:
+  - platform: ld2450
+    factory_reset:
+      name: "Factory reset"
+    reboot:
+      name: "Reboot"
+
+switch:
+  - platform: ld2450
+    single_target:
+      name: "Single target"
+    bluetooth:
+      name: "Bluetooth"
+
+number:
+- platform: ld2450
+  rotate:
+    restore_value: true
+    initial_value: 0
+    name: "Rotate angle"
+  region_0:
+    x0:
+      name: Zone0 X0
+    x1:
+      name: Zone0 X1
+    y0:
+      name: Zone0 Y0
+    y1:
+      name: Zone0 Y1
+
+  region_1:
+    x0:
+      name: Zone1 X0
+    x1:
+      name: Zone1 X1
+    y0:
+      name: Zone1 Y0
+    y1:
+      name: Zone1 Y1
+
+  region_2:
+    x0:
+      name: Zone2 X0
+    x1:
+      name: Zone2 X1
+    y0:
+      name: Zone2 Y0
+    y1:
+      name: Zone2 Y1
+
+select:
+  - platform: ld2450
+    baud_rate:
+      name: "Baud rate"
+    regions_type:
+      name: "Regions type"
+
+sensor:
+- platform: ld2450
+  target_count:
+    name: Target count
+
+  person_0:
+    position_x:
+      name: "Posistion0 X"  
+    position_y:
+      name: "Position0 Y"  
+    speed:
+      name: "Speed 0"  
+    resolution:
+      name: "Resolution 0"  
+
+  person_1:
+    position_x:
+      name: "Position1 X"  
+    position_y:
+      name: "Position1 Y"  
+    speed:
+      name: "Speed 1"  
+    resolution:
+      name: "Resolution 1"  
+
+  person_2:
+    position_x:
+      name: "Position2 X"  
+    position_y:
+      name: "Position2 Y"  
+    speed:
+      name: "Speed 2"  
+    resolution:
+      name: "Resolution 2"
