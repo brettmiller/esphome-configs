@@ -5,7 +5,7 @@
 # Pull the M5Stack Atom Echo voice-assistant config from github
 packages:
   # remote_package: github://esphome/firmware/voice-assistant/m5stack-atom-echo.yaml@main
-  # as of 2024-06-22 below just references ^ (w/o micro wake word support)
+  # As of 2024-06-22 below just references ^ (w/o micro wake word support), but should work after the next esphome release (2024.7.0)
   remote_package: github://esphome/firmware/wake-word-voice-assistant/m5stack-atom-echo.yaml@main
 
 # :(  This feature is only available with frameworks ['arduino'].
