@@ -3,7 +3,7 @@
 # substitutions:
 #   bed_sensor_delta: '0.02'
 
-#Bed sensor - FSR (force sensitive resistor)
+# Bed sensor - FSR (force sensitive resistor)
 #
 # requires substitution "bed_sensor_gpio: <GPIO_PIN>" to be defined
 platform: adc
@@ -11,7 +11,7 @@ name: ${name} Bed Sensor
 id: ${device_id}_bed_sensor
 icon: mdi:bed
 pin: ${bed_sensor_gpio}
-attenuation: 11db
+attenuation: 12db
 update_interval: 0.5s
 filters:
   - sliding_window_moving_average:
@@ -19,5 +19,5 @@ filters:
       send_every: 1
   - or:
       - throttle: 180s
-      #- delta: 0.02
+      # - delta: 0.02
       - delta: ${bed_sensor_delta}
