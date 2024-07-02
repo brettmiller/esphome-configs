@@ -1,0 +1,31 @@
+---
+substitutions:
+  device_name: office-tracker 
+  name: "Office tracker"
+  description: Office ble proxy & device tracker
+
+packages:
+  <<: !include_dir_named common
+  board: !include boards/lolin_c3_mini.yaml
+
+<<: !include components/bluetooth_proxy+tracker.yaml
+
+esphome:
+  on_boot:
+    then:
+      - delay: 2s
+      - light.turn_on:
+          id: led
+          brightness: 15%
+          red: 80%
+          green: 0%
+          blue: 100%
+light:
+  - platform: neopixelbus
+    id: led
+    name: "${name} Led"
+    type: GRB
+    variant: WS2812
+    method: ESP32_RMT_1
+    num_leds: 1
+    pin: GPIO7
