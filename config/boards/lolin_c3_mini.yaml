@@ -1,3 +1,4 @@
+---
 # Wemos C3 mini
 #
 # https://www.wemos.cc/en/latest/c3/c3_mini.html
@@ -6,4 +7,4 @@
 esp32:
   board: lolin_c3_mini
   framework:
-    type: arduino
+    type: esp-idf

@@ -1,3 +1,4 @@
+---
 # Wemos S3
 #
 # https://www.wemos.cc/en/latest/s3/s3.html
@@ -6,4 +7,4 @@
 esp32:
   board: lolin_s3
   framework:
-    type: arduino
+    type: esp-idf
