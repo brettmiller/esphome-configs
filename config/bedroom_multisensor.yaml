@@ -30,14 +30,14 @@ esphome:
     then:
       - delay: 2s
       - light.turn_on:
-          id: ${device_id}_led
+          id: onboard_led
           brightness: 25%
           red: 100%
           green: 0%
           blue: 100%
       - delay: 7s
       - light.turn_on:
-          id: ${device_id}_led
+          id: onboard_led
           brightness: 11%
           red: 100%
           green: 0%
@@ -49,7 +49,7 @@ logger:
 #  baud_rate: 0 #disable UART logging
 
 light:
-  - <<: !include components/onboard_ws2812.yaml
+  <<: !include components/onboard_ws2812.yaml
 
 sensor:
   - <<: !include sensors/shtcx.yaml
