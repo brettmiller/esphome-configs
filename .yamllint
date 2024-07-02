@@ -8,4 +8,5 @@ rules:
     level: warning
     allow-non-breakable-words: true
     allow-non-breakable-inline-mappings: true
-
+  empty-lines:
+    max-end: 1
