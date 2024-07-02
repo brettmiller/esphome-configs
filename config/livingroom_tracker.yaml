@@ -1,13 +1,13 @@
 ---
 substitutions:
-  device_name: office-tracker 
-  name: "Office tracker"
-  description: Office ble proxy & device tracker
-  onboard_led_gpio: GPIO7
+  device_name: livingroom-tracker 
+  name: "Living room tracker"
+  description: Living room ble proxy & device tracker
+  onboard_led_gpio: GPIO47
 
 packages:
   <<: !include_dir_named common
-  board: !include boards/lolin_c3_mini.yaml
+  board: !include boards/lolin_s3_mini.yaml
 
 <<: !include components/bluetooth_proxy+tracker.yaml
 
@@ -21,5 +21,6 @@ esphome:
           red: 80%
           green: 0%
           blue: 100%
-light:
+
+light: # colors are wrong type should be "RGB" not "GRB" from the include, variablize? 
   <<: !include components/onboard_ws2812.yaml
