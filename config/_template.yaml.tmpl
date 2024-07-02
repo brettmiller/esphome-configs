@@ -3,18 +3,14 @@
 # {{DESCRIPTION}}
 
 substitutions:
-  device_name: multisensor0
-  name: Multisensor0
-  description: test w/ i2c sensors
+  device_name: new-device0
+  name: "New Device 0"
+  description: A new device
 
 packages:
   <<: !include_dir_named common
   board: !include boards/{{BOARD}}.yaml
-  #i2c: !include components/i2c.yaml
+  # i2c: !include components/i2c.yaml
 
-#Enable logging
-logger:
-#  baud_rate: 0 #disable UART logging
-
-#sensor:
-  #- <<: !include sensors/{{SENSOR}}.yaml
+# sensor:
+  # - <<: !include sensors/{{SENSOR}}.yaml
