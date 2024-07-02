@@ -1,6 +1,7 @@
 # Common code for bluetooth proxies
 
 esp32_ble_tracker:
+  id: ble_tracker
   scan_parameters:
     interval: 211ms # default 320ms
     window: 120ms   # default 30ms
@@ -12,6 +13,7 @@ esp32_ble_tracker:
   #  active: true
  
 bluetooth_proxy:
+  id: ble_proxy
   active: true
 
 #sensor:
