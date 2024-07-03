@@ -4,6 +4,10 @@
 # https://www.wemos.cc/en/latest/s3/s3.html
 # https://docs.platformio.org/en/latest/boards/espressif32/lolin_s3.html
 #
+substitutions:
+  onboard_led_gpio: GPIO38
+  onboard_led_rgb_order: GRB
+
 esp32:
   board: lolin_s3
   framework:

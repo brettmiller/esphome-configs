@@ -3,7 +3,6 @@ substitutions:
   device_name: livingroom-tracker 
   name: "Living room tracker"
   description: Living room ble proxy & device tracker
-  onboard_led_gpio: GPIO47
 
 packages:
   <<: !include_dir_named common

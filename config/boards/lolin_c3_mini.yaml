@@ -4,6 +4,10 @@
 # https://www.wemos.cc/en/latest/c3/c3_mini.html
 # https://docs.platformio.org/en/latest/boards/espressif32/lolin_c3_mini.html
 #
+substitutions:
+  onboard_led_gpio: GPIO7
+  onboard_led_rgb_order: GRB
+
 esp32:
   board: lolin_c3_mini
   framework:

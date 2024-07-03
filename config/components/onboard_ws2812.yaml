@@ -9,8 +9,12 @@
 # AND
 # substitutions:
 #   onboard_led_gpio: GPIO7
-#
-# GPIO7 is the LED pin on the C3 mini, set to boards LED pin
+#   onboard_led_rgb_order: GRB
+# 
+# These are all set w/ substitutions in each of the <board>.yaml files. 
+# Lolin C3 mini:      Lolin S3 mini:      Lolin S3
+# led_gpio: GPIO7     led_gpio: GPI47     led_gpio: GPIO38
+# led_rgb_order: GRB  led_rgb_order: RGB  led_rgb_order: GRB
 
 - platform: esp32_rmt_led_strip
   id: onboard_led
@@ -21,7 +25,7 @@
   num_leds: 1
   pin: ${onboard_led_gpio}
 
-# Below with framework: esp-idf
+# Below doesn't work with framework: esp-idf
 # platform: neopixelbus
 # name: "${name} led"
 # id: ${device_id}_led
@@ -32,3 +36,4 @@
 # # method: ESP32_RMT
 # num_leds: 1
 # pin: ${onboard_led_gpio}
+

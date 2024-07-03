@@ -4,27 +4,18 @@
 # https://www.wemos.cc/en/latest/s3/s3_mini.html
 # https://docs.platformio.org/en/latest/boards/espressif32/lolin_s3_mini.html
 
-# the lolin_s3_mini is currently unknown (with esphome's platformio version)
-# also requires the latest esp-idf (as of 2024-07-02)
+substitutions:
+  onboard_led_rgb_order: RGB
+  onboard_led_gpio: GPIO47
 
-# esphome:
-#   platformio_options:
-#     platform: https://github.com/platformio/platform-espressif32.git
-#     board: lolin_s3_mini
-#     framework: espidf
-#     # board_build.flash_mode: dio
-#     oard_upload.flash_size: 4MB
-#     board_upload.ram_size: 327680
-#     board_upload_maximum_size: 4193404
-#     # board_upload_speed: 460800
-#     build_flags: [
-#       "-DBOARD_HAS_PSRAM",
-#     ]
 
+# the lolin_s3_mini is currently unknown (with esphome's default platformio version)
+# and won't compile w/ recommended esp-idf (or when set to 'latest' even when the set version is latest) (as of 2024-07-02)
 esp32:
   board: lolin_s3_mini
   variant: esp32s3
   framework:
     type: esp-idf
-    version: 5.2.2
-    platform_version: 6.7.0
+    # version: latest  # https://github.com/espressif/esp-idf/releases
+    version: 5.2.2     # 5.2.2 is currently the latest, but compiling w/ 'latest' fails 🤷‍♂️ 2024-07-02  
+    platform_version: 6.7.0  # https://github.com/platformio/platform-espressif32/releases/
