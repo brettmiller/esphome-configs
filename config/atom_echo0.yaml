@@ -1,3 +1,4 @@
+---
 substitutions:
   device_name: "m5stack-atom-echo0"
   name: "M5Stack Atom Echo 0"
@@ -8,9 +9,9 @@ packages:
   <<: !include_dir_named common
   device: !include devices/voice-assistant-atom-echo.yaml
 
-# ble_tracker takes too long and gets disabled even w/ the esphome.platformio_options & esp32_ble_tracker mods below
-# maybe test on an esp32-s3? 🤷‍♂️
-#<<: !include components/bluetooth_tracker.yaml
+#  ble_tracker takes too long and gets disabled even w/ the esphome.platformio_options & esp32_ble_tracker mods below
+#  maybe test on an esp32-s3? 🤷‍♂️
+# <<: !include components/bluetooth_tracker.yaml
 
 # logger:
 #   level: VERBOSE
