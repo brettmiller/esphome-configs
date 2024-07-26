@@ -1,4 +1,6 @@
 ---
 # Enable logging
 logger:
+# Remember to disable logger if using the primary UART! Override in device's yaml by
+# duplicating this and uncommenting below.
 #  baud_rate: 0 #disable UART logging
