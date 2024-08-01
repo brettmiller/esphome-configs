@@ -1,6 +1,6 @@
 ---
 substitutions:
-  device_name: office-tracker 
+  device_name: office-tracker
   name: "Office tracker"
   description: Office ble proxy & device tracker
   onboard_led_gpio: GPIO7
@@ -9,7 +9,7 @@ packages:
   <<: !include_dir_named common
   board: !include boards/lolin_c3_mini.yaml
 
-<<: !include components/bluetooth_proxy+tracker.yaml
+<<: !include components/bluetooth_proxy+tracker-single-core.yaml
 
 esphome:
   on_boot:
