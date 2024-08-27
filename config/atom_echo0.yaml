@@ -6,8 +6,9 @@ substitutions:
   micro_wake_word_model: hey_jarvis
 
 packages:
-  <<: !include_dir_named common
   device: !include devices/voice-assistant-atom-echo.yaml
+  <<: !include_dir_named common
+
 
 #  ble_tracker takes too long and gets disabled even w/ the esphome.platformio_options & esp32_ble_tracker mods below
 #  maybe test on an esp32-s3? 🤷‍♂️
