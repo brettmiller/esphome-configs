@@ -11,10 +11,10 @@ substitutions:
 
 
 packages:
-  <<: !include_dir_named common
   device: !include devices/voice-assistant-esp32-box.yaml
+  <<: !include_dir_named common
 
-#<<: !include components/bluetooth_proxy+tracker.yaml
+# <<: !include components/bluetooth_proxy+tracker.yaml
 
 color:
   - id: dark_purple
@@ -59,7 +59,7 @@ font:
   - file: "gfonts://Roboto"
     id: font_time
     size: 45
-    #size: 60
+    # size: 60
     glyphs: "0123456789AMP:- "
   - file: "gfonts://Roboto"
     id: font_date
@@ -72,7 +72,7 @@ font:
 time:
   - platform: homeassistant
     id: time_ha
-    #timezone: Europe/Berlin
+    # timezone: Europe/Berlin
     # update screen every minute so time/date are refreshed
     on_time:
       # Every 1 minutes
