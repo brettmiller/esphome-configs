@@ -1,37 +1,23 @@
-# Basic Config
-esphome:
-  name: bedroom-heat-air
-  platform: ESP8266
-  board: esp01_1m
-  board_flash_mode: dout
+
+substitutions:
+  #name: bedroom-heat-air
+  device_name: basement-plug-1
+  name: Basement Plug 1
+  description: Sonoff th10 - basement plug
+
+# esphome:
+#   platform: ESP8266
+#   board: esp01_1m
+#   board_flash_mode: dout
   #on_boot:
   #  #priority: -10
   #  then:
   #    - light.turn_on: blue_led
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
 
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: ${name}_AP
-    password: !secret fallback_ap_pass
-
-captive_portal:
-
-# Enable logging
-logger:
-
-# Enable Home Assistant API
-api:
-  encryption:
-    key: !secret esphome_api_key
-
-# Enable OTA updates
-ota:
-  password: !secret esphome_ota_password
-
-#web_server:
+packages:
+  <<: !include_dir_named common
+  # board: !include boards/esp01_1m.yaml # added 'board:' to board file so only <<: is needed
+  <<: !include boards/esp01_1m.yaml
 
 binary_sensor:
   - platform: gpio
@@ -39,15 +25,15 @@ binary_sensor:
       number: GPIO0
       mode: INPUT_PULLUP
       inverted: True
-    name: "Bedroom Heat/Air Button"
+    name: "${name} Button"
     on_press:
       - light.toggle: th10_1_relay
   - platform: status
-    name: "Bedroom Heat/Air Status"
+    name: "${name} Status"
 
 sensor:
   - platform: wifi_signal
-    name: "Bedroom Heat/Air WiFi Signal"
+    name: "${name} WiFi Signal"
     update_interval: 60s
 #  - platform: dht
 #    model: SI7021
@@ -55,12 +41,12 @@ sensor:
 #    humidity:
 #      name: "Bedroom Head/Air Switch Humidity"
 #    temperature:
-#      name: "Bedroom Heat/Air Switch Temp"
+#      name: "${name} Switch Temp"
 #    update_interval: 60s
 
 switch:
   - platform: restart
-    name: "Bedroom Heat/Air Restart"
+    name: "${name} Restart"
     restore_mode: RESTORE_DEFAULT_OFF
 
 output:
@@ -75,10 +61,10 @@ output:
 
 light:
   - platform: monochromatic
-    name: "Bedroom Heat/Air blue LED"
+    name: "${name} blue LED"
     id: blue_led
     output: TH10_1_blue_led
   - platform: binary
-    name: "Bedroom Heat/Air Relay"
+    name: "${name} Relay"
     id: th10_1_relay
     output: relay
