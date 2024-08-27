@@ -1,5 +1,10 @@
+---
 # remote package documentation: https://esphome.io/guides/configuration-types#remote-git-packages
 #
 # Pull the M5Stack Atom Echo voice-assistant config from github
 packages:
-  remote_package: github://esphome/firmware/wake-word-voice-assistant/esp32-s3-box.yaml@main
+  remote_package: github://esphome/wake-word-voice-assistants/esp32-s3-box/esp32-s3-box.yaml@main
+
+# disable ota, it conflicts w/ common and update is dependent on it as well
+# ota: !remove
+# update: !remove
