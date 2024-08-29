@@ -9,7 +9,7 @@ packages:
   <<: !include_dir_named common
   board: !include boards/lolin_c3_mini.yaml
 
-<<: !include components/bluetooth_proxy+tracker-single-core.yaml
+<<: !include components/bluetooth_proxy+tracker-ble-wait-wifi.yaml
 
 esphome:
   platformio_options:

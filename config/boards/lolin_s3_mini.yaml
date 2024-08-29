@@ -17,5 +17,7 @@ esp32:
   framework:
     type: esp-idf
     # version: latest  # https://github.com/espressif/esp-idf/releases
-    version: 5.2.2     # 5.2.2 is currently the latest, but compiling w/ 'latest' fails(it pulls 5.1.2 🤷) 2024-07-02
-    platform_version: 6.7.0  # https://github.com/platformio/platform-espressif32/releases/
+    #version: 5.2.2   # 5.2.2 is currently the latest, but compiling w/ 'latest' fails(it pulls 5.1.2 🤷) 2024-07-02 (2024-08-29 5.3 is now latest)
+    version: 5.3.0   # 5.2.2 is currently the latest, but compiling w/ 'latest' fails(it pulls 5.1.2 🤷) 2024-07-02 (2024-08-29 5.3 is now latest)
+    #platform_version: 6.7.0  # https://github.com/platformio/platform-espressif32/releases/
+    platform_version: 6.8.1  # https://github.com/platformio/platform-espressif32/releases/

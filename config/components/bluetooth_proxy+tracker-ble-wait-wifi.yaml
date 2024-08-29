@@ -1,5 +1,7 @@
 ---
-# Common code for bluetooth proxies on single core chips (esp32-c3/s2)
+# Common code for bluetooth proxies
+# BLE scanning wait/pause for WIFI, needed on single core chips (esp32-c3/s2) but probably
+# helpful for others (see "Too many BLE events to process." on esp32-s3 modules)
 
 esp32_ble_tracker:
   id: ble_tracker
@@ -19,7 +21,7 @@ bluetooth_proxy:
   active: true
 
 api:
-  # start ble_tracker when api is connected and stop when disconnected
+  # start ble_tracker scanning when api is connected and stop when disconnected
   # helps resolve issues connecting to wifi on singe core boards
   on_client_connected:
     - esp32_ble_tracker.start_scan:
