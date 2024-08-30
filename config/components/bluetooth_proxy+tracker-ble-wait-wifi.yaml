@@ -1,7 +1,7 @@
 ---
 # Common code for bluetooth proxies
 # BLE scanning wait/pause for WIFI, needed on single core chips (esp32-c3/s2) but probably
-# helpful for others (see "Too many BLE events to process." on esp32-s3 modules)
+# helpful for others (have seen "Too many BLE events to process." on esp32-s3 modules)
 
 esp32_ble_tracker:
   id: ble_tracker
