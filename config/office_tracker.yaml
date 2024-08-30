@@ -3,7 +3,6 @@ substitutions:
   device_name: office-tracker
   name: "Office tracker"
   description: Office ble proxy & device tracker
-  onboard_led_gpio: GPIO7
 
 packages:
   <<: !include_dir_named common
