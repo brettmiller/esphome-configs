@@ -1,18 +1,18 @@
-
+---
 substitutions:
-  #name: bedroom-heat-air
-  device_name: basement-plug-1
-  name: Basement Plug 1
-  description: Sonoff th10 - basement plug
+  # Sonoff TH16 is the same as the TH10 w/ a 16A relay
+  device_name: sonoff-th16-plug-0
+  name: Sonoff TH16 Plug 0
+  description: Sonoff th16
 
 # esphome:
 #   platform: ESP8266
 #   board: esp01_1m
 #   board_flash_mode: dout
-  #on_boot:
-  #  #priority: -10
-  #  then:
-  #    - light.turn_on: blue_led
+#   on_boot:
+#     #priority: -10
+#     then:
+#       - light.turn_on: blue_led
 
 packages:
   <<: !include_dir_named common
@@ -24,7 +24,7 @@ binary_sensor:
     pin:
       number: GPIO0
       mode: INPUT_PULLUP
-      inverted: True
+      inverted: true
     name: "${name} Button"
     on_press:
       - light.toggle: th10_1_relay
@@ -54,7 +54,7 @@ output:
     id: TH10_1_blue_led
     pin:
       number: GPIO13
-      inverted: True
+      inverted: true
   - platform: gpio
     id: relay
     pin: GPIO12
