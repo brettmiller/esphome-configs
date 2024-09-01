@@ -3,17 +3,14 @@ substitutions:
   device_name: shop-tracker
   name: "Shop tracker"
   description: Shop ble proxy & device tracker
-  onboard_led_gpio: GPIO7
 
 packages:
   <<: !include_dir_named common
-  board: !include boards/lolin_c3_mini.yaml
+  board: !include boards/lolin_s3_mini.yaml
 
 <<: !include components/bluetooth_proxy+tracker-ble-wait-wifi.yaml
 
 esphome:
-  platformio_options:
-    board_build.flash_mode: dio
   on_boot:
     then:
       - delay: 2s
@@ -23,6 +20,5 @@ esphome:
           red: 80%
           green: 0%
           blue: 100%
-
 light:
   <<: !include components/onboard_ws2812.yaml
