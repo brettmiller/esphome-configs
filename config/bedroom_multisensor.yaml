@@ -13,14 +13,14 @@ substitutions:
   #bed_sensor_gpio: A12 # (GPIO13)
   bed_sensor_gpio: GPIO1
   bed_sensor_delta: '1.5'
-  onboard_led_gpio: GPIO38
 
 packages:
   <<: !include_dir_named common
   board: !include boards/lolin_s3.yaml
   i2c: !include components/i2c.yaml
 
-<<: !include components/bluetooth_proxy+tracker.yaml
+# <<: !include components/bluetooth_proxy+tracker.yaml
+<<: !include components/bluetooth_proxy+tracker-ble-wait-wifi.yaml
 
 esphome:
   # turn on onboad led to red w/ brightness %
