@@ -19,8 +19,8 @@ packages:
   board: !include boards/lolin_s3.yaml
   i2c: !include components/i2c.yaml
 
-# <<: !include components/bluetooth_proxy+tracker.yaml
-<<: !include components/bluetooth_proxy+tracker-ble-wait-wifi.yaml
+## <<: !include components/bluetooth_proxy+tracker.yaml
+#<<: !include components/bluetooth_proxy+tracker-ble-wait-wifi.yaml
 
 esphome:
   # turn on onboad led to red w/ brightness %
