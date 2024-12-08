@@ -1,0 +1,4 @@
+---
+text_sensor:
+  - <<: !include ../text-sensors/wifi_info.yaml
+  - <<: !include ../text-sensors/esphome_version.yaml
