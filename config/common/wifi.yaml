@@ -16,19 +16,17 @@ wifi:
   id: component_wifi
   ssid: "${wifi_ssid}"
   password: "${wifi_password}"
-  reboot_timeout: 10min
+  # reboot_timeout: 10min # default 15m
+  reboot_timeout: 5min
   ap:
     ssid: "${device_name}_ap"
     password: "${wifi_ap_password}"
 
-#captive_portal:
+# captive_portal:
 
 sensor:
   - <<: !include ../sensors/wifi_signal_percentage.yaml
   - <<: !include ../sensors/wifi_signal.yaml
     on_value:
       - component.update: sensor_wifi_signal_percentage
-
-text_sensor:
-  - <<: !include ../text-sensors/wifi_info.yaml
 
