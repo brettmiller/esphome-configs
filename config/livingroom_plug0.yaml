@@ -1,0 +1,13 @@
+substitutions:
+  device_name: livingroom-plug-0
+  description: livingroom plug0 (Cloudfree SmartPlug2)
+  name: Livingroom plug
+  switch_restore_mode: ALWAYS_OFF
+  #switch_restore_mode: RESTORE_DEFAULT_OFF
+  #ipaddress: 192.168.1.200
+  #wattage_calibration: 67.6 -> 11.0
+  #amperage_calibration: 0.12 -> 0.08
+  #voltage_calibration1: 0.0 -> 0.0
+  #voltage_calibration2: 322.4 -> 118.3
+
+<<: !include devices/aoycocr_x10s_common.yaml
