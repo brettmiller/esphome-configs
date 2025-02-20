@@ -8,6 +8,7 @@ packages:
 # ensure logger isn't using serial port, needed for UART
 logger:
   baud_rate: 0
+  # level: DEBUG
 #web_server:
 captive_portal:
 mdns:
@@ -32,6 +33,14 @@ sensor:
 #    name: unknown_adc
 #    raw: true
 #    update_interval: 30s
+
+# # Maybe not a reciever - with dump all there's nothing in the logs
+# remote_receiver:
+#   pin:
+#     number: P23 #ADC3
+#     #inverted: true
+#     mode: INPUT_PULLUP
+#   dump: all
 
 ## logger must not be using serial port (tx/rx pins)
 # uart:
