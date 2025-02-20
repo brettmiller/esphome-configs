@@ -19,7 +19,7 @@ substitutions:
 packages:
   <<: !include_dir_named common
   i2c: !include components/i2c.yaml
-  # using moded code, not pulling from github so can't include as a package included 
+  # using modded code, not pulling from github so can't include as a package included 
   # at a higher level below
   <<: !include devices/everything-presence-lite.yaml
 
@@ -38,3 +38,14 @@ esp32:
 #Enable logging
 logger:
 #  baud_rate: 0 #disable UART logging
+
+## override the Max distance from 600 to 700 cm w/ !extend
+number:
+  - id: !extend distance
+    max_value: 700
+    initial_value: 700
+  - id: !extend zone2_begin_y
+    max_value: 7000
+  - id: !extend zone2_end_y
+    max_value: 7000
+

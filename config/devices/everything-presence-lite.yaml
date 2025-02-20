@@ -4,9 +4,31 @@
 # Pull the Everything Presence Lite config from github
 # packages:    # include this file in "packages:"
 
+remote_package_shorthand: github://EverythingSmartHome/everything-presence-lite/everything-presence-lite-ha.yaml@main
+#remote_package_files:
+#  url: https://github.com/EverythingSmartHome/everything-presence-lite
+#  files: [ everything-presence-lite-ha.yaml ]
+#  ref: main
 
-remote_package: github://EverythingSmartHome/everything-presence-lite/everything-presence-lite-ha.yaml@main
-# below is ^ with the max Y modified to 7100 (from 6000)
+## extend the Max distance from 600 to 700 cm
+## moved to files this is included from to avoid it throwing "Shorthand only for strings." error 🤷
+#number:
+#  - id: !extend distance
+#    max_value: 700
+#    initial_value: 700
+
+# below is from the remote package with the max Y modified to 7100 (from 6000)
+#number:
+#  - id: !extend distance
+#    #name: "Max Distance"
+#    #id: distance
+#    max_value: 700
+#    #min_value: 0
+#    #unit_of_measurement: "cm"
+#    #step: 1
+#    #optimistic: True
+#    #restore_value: True
+#    initial_value: 700
 
 # substitutions:
 #   illuminance_update_interval: "2s"
