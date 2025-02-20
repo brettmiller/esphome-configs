@@ -9,6 +9,13 @@ packages:
   device: !include devices/voice-assistant-atom-echo.yaml
   <<: !include_dir_named common
 
+# `esp32:` block is to work around https://github.com/esphome/wake-word-voice-assistants/issues/42 and it can be remove when resolved
+#esp32:
+#  framework:
+#    type: esp-idf
+#    version: 4.4.8
+#    platform_version: 5.4.0
+
 
 #  ble_tracker takes too long and gets disabled even w/ the esphome.platformio_options & esp32_ble_tracker mods below
 #  maybe test on an esp32-s3? 🤷‍♂️
