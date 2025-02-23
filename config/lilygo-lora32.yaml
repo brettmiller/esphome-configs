@@ -1,0 +1,97 @@
+---
+substitutions:
+  device_name: lilygo-lora32-0
+  name: Lilygo Lora32 0
+  device_id: lilygo_lora32_0
+  description: Lilygo TTGO Lora32
+
+packages:
+  <<: !include_dir_named common
+  board: !include boards/esp32dev.yaml
+
+external_components:
+  - source: github://pr#7490
+    components: [ sx127x ]
+
+esp32:
+  framework:
+    type: esp-idf
+
+spi:
+  clk_pin: GPIO5
+  mosi_pin: GPIO27
+  miso_pin: GPIO19
+
+sx127x:
+  cs_pin: GPIO18
+  rst_pin: GPIO23
+  frequency: 433920000
+  modulation: OOK
+  rx_start: false
+  rx_floor: -90
+  bandwidth: 50_0kHz
+  pa_pin: BOOST
+  pa_power: 17
+
+remote_receiver:
+  id: rx_id
+  pin: 
+    number: GPIO32
+    mode:
+      input: true
+      output: true
+      pullup: true
+      open_drain: true
+    allow_other_uses: true
+  #filter: 255us
+  #idle: 2000us
+  #buffer_size: 100000b
+  #memory_blocks: 3 #8
+  dump: 
+    - rc_switch
+    - raw
+
+remote_transmitter:
+  id: tx_id
+  pin:
+    number: GPIO32
+    mode:
+      input: true
+      output: true
+      pullup: true
+      open_drain: true
+    allow_other_uses: true
+  eot_level: false
+  carrier_duty_percent: 100%
+  on_transmit:
+    then:
+      - sx127x.set_mode_standby
+      - lambda: 'id(tx_id)->digital_write(false);'
+      - sx127x.set_mode_tx 
+  on_complete:
+    then:
+      - sx127x.set_mode_standby
+      - lambda: 'id(tx_id)->digital_write(true);'
+      - sx127x.set_mode_rx
+
+button:
+  - platform: template
+    name: living_room_belkin_pwr_on
+    on_press:
+      then: 
+        - remote_transmitter.transmit_rc_switch_raw:
+            code: '010101010101010101010111'
+            protocol: 1
+            repeat:
+              times: 4
+              wait_time: 0s
+  - platform: template
+    name: living_room_belkin_pwr_off
+    on_press:
+      then: 
+        - remote_transmitter.transmit_rc_switch_raw:
+            code: '010101010101010101010100'
+            protocol: 1
+            repeat:
+              times: 4
+              wait_time: 0s
