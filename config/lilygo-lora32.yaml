@@ -13,6 +13,45 @@ external_components:
   - source: github://pr#7490
     components: [ sx127x ]
 
+## reciever doesn't seem to start until a code is sent, so send '0' on boot
+#esphome:
+#  on_boot:
+#    then:
+#      - delay: 3s
+#      - remote_transmitter.transmit_rc_switch_raw:
+#          code: '0'
+#          protocol: 1
+#          repeat:
+#            times: 1
+#            wait_time: 0s
+
+api:
+  # reciever doesn't seem to start until a code is sent, so send '0'
+  # after api is connected (instead of on_boot w/ delay)
+  on_client_connected:
+    - remote_transmitter.transmit_rc_switch_raw:
+        code: '0'
+        protocol: 1
+        repeat:
+          times: 1
+          wait_time: 0s
+    - script.execute: time_update
+    - component.update: display0
+    # show symbol when connected (see lvgl: section).
+    # doesn't work well, toggles when it shouldn't and doesn't go off on wifi disconnect. maybe move to wifi on_connect/on_disconnect?
+    - lambda: ESP_LOGD("Client connect:", "%s", client_info.c_str());
+
+wifi:
+  # doesn't seem to work if wifi is connected, disconnects, and reconnects
+  on_connect:
+    - logger.log: "******WIFI connected******"
+    - lvgl.widget.show: lbl_hastatus
+    - component.update: display0
+  on_disconnect:
+    - logger.log: "******WIFI disconnected******"
+    - lvgl.widget.hide: lbl_hastatus
+    - component.update: display0
+
 esp32:
   framework:
     type: esp-idf
@@ -35,7 +74,7 @@ sx127x:
 
 remote_receiver:
   id: rx_id
-  pin: 
+  pin:
     number: GPIO32
     mode:
       input: true
@@ -43,13 +82,14 @@ remote_receiver:
       pullup: true
       open_drain: true
     allow_other_uses: true
-  #filter: 255us
+  #filter: 250us # defaults to 50us
   #idle: 2000us
   #buffer_size: 100000b
   #memory_blocks: 3 #8
-  dump: 
-    - rc_switch
-    - raw
+  dump: all
+#  dump:
+#    - rc_switch
+#    - raw
 
 remote_transmitter:
   id: tx_id
@@ -67,7 +107,7 @@ remote_transmitter:
     then:
       - sx127x.set_mode_standby
       - lambda: 'id(tx_id)->digital_write(false);'
-      - sx127x.set_mode_tx 
+      - sx127x.set_mode_tx
   on_complete:
     then:
       - sx127x.set_mode_standby
@@ -78,7 +118,7 @@ button:
   - platform: template
     name: living_room_belkin_pwr_on
     on_press:
-      then: 
+      then:
         - remote_transmitter.transmit_rc_switch_raw:
             code: '010101010101010101010111'
             protocol: 1
@@ -88,10 +128,123 @@ button:
   - platform: template
     name: living_room_belkin_pwr_off
     on_press:
-      then: 
+      then:
         - remote_transmitter.transmit_rc_switch_raw:
             code: '010101010101010101010100'
             protocol: 1
             repeat:
               times: 4
               wait_time: 0s
+
+# I2C for OLED
+i2c:
+  sda: GPIO21
+  scl: GPIO22
+  scan: true
+
+display:
+  - platform: ssd1306_i2c
+    id: display0
+    model: "SSD1306 128x64"
+    address: 0x3C
+    #update_interval: 10s
+    update_interval: never # will this work and display b/c of the on_client_connect?
+    #lambda: |-
+    #  it.print(0, 0, id(font_small), "Hello World!");
+
+font:
+#  - file: "gfonts://Roboto"
+#    id: font_small
+#    size: 12
+  - file: "gfonts://Roboto"
+    id: font_medium
+    size: 20
+#  - file: "gfonts://Roboto"
+#    id: font_large
+#    size: 40
+#    glyphs: ". "
+  - file: "gfonts://Roboto"
+    id: font_time
+    size: 45
+    # size: 60
+    glyphs: "0123456789AMP:- "
+#  - file: "gfonts://Noto+Sans+Symbols"
+#    id: icons_20
+#    size: 20
+#  - file: "fonts/materialdesignicons-webfont.ttf"
+#    id: mdi_20
+#    size: 20
+
+## Always ends up with white screen, something w/ "top_layer"? Below w/o layer works.
+#lvgl:
+#  displays:
+#    - display0
+#  top_layer:
+#    bg_color: black
+#    widgets:
+#      # show + when API connected
+#      - label:
+#          text: "+"
+#          id: lbl_hastatus
+#          #hidden: true
+#          align: top_right
+#          x: -2
+#          y: 7
+#          text_font: font_small
+#          text_align: right
+#          text_color: white
+#          #text_color: 0xFFFFFF
+
+lvgl:
+  displays:
+    - display0
+  bg_color: black
+  widgets:
+  - label:
+      text: "*"
+    #  text: Hello World!
+      #align: center
+      text_font: font_medium
+      text_color: white
+      # from above
+      id: lbl_hastatus
+      #hidden: true
+      align: top_right
+      text_align: right
+      #x: -2
+      y: -3
+  - label:
+      id: lbl_time
+      text: "00:00"
+      align: CENTER
+      text_align: CENTER
+      text_font: font_time
+      text_color: white
+      outline_color: black
+      y: 5
+      #x: 1
+
+time:
+  - platform: homeassistant
+    id: time_ha
+    on_time_sync:
+      - script.execute: time_update
+    on_time:
+      - minutes: '*'
+        seconds: 0
+        then:
+          - script.execute: time_update
+
+script:
+  - id: time_update
+    then:
+      - lvgl.label.update:
+          id: lbl_time
+          text: !lambda |-
+            return id(time_ha).now().strftime("%I:%M");
+      - component.update: display0
+    #  - logger.log: "update Time script ran"
+
+
+# ******ADD https://esphome.io/cookbook/lvgl.html#prevent-burn-in-of-lcd possible create a component
+# add backlight turn on/off at time (& maybe also when living room light turns off?)
