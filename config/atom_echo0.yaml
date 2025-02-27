@@ -9,6 +9,9 @@ packages:
   device: !include devices/voice-assistant-atom-echo.yaml
   <<: !include_dir_named common
 
+http_request:
+  verify_ssl: false
+
 ## set to DEBUG, for debugging
 #logger:
 #  level: DEBUG
