@@ -10,18 +10,19 @@
 # substitutions:
 #   onboard_led_gpio: GPIO7
 #   onboard_led_rgb_order: GRB
-# 
-# These are all set w/ substitutions in each of the <board>.yaml files. 
+#
+# These are all set w/ substitutions in each of the <board>.yaml files.
 # Lolin C3 mini:      Lolin S3 mini:      Lolin S3
 # led_gpio: GPIO7     led_gpio: GPI47     led_gpio: GPIO38
 # led_rgb_order: GRB  led_rgb_order: RGB  led_rgb_order: GRB
+
 
 - platform: esp32_rmt_led_strip
   id: onboard_led
   name: "${name} Led"
   rgb_order: ${onboard_led_rgb_order}
   chipset: WS2812
-  rmt_channel: 0
+  # rmt_channel: 0 # only needed for Aruduino, not IFD
   num_leds: 1
   pin: ${onboard_led_gpio}
 
