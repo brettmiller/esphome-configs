@@ -3,27 +3,20 @@ substitutions:
   device_name: lilygo-lora32-0
   name: Lilygo Lora32 0
   device_id: lilygo_lora32_0
-  description: Lilygo TTGO Lora32
+  description: Lilygo TTGO Lora32 - 433MHz
+  # Set below to the id of or use as id of the display & time compoenets. Used in
+  # antiburn switch/time components so it updates when antiburn is turned off
+  display_id: display0
+  time_id: time_ha
 
 packages:
   <<: !include_dir_named common
   board: !include boards/esp32dev.yaml
+  antiburn_time: !include components/lvgl-antiburn-time.yaml
 
 external_components:
   - source: github://pr#7490
     components: [ sx127x ]
-
-## reciever doesn't seem to start until a code is sent, so send '0' on boot
-#esphome:
-#  on_boot:
-#    then:
-#      - delay: 3s
-#      - remote_transmitter.transmit_rc_switch_raw:
-#          code: '0'
-#          protocol: 1
-#          repeat:
-#            times: 1
-#            wait_time: 0s
 
 api:
   # reciever doesn't seem to start until a code is sent, so send '0'
@@ -72,24 +65,24 @@ sx127x:
   pa_pin: BOOST
   pa_power: 17
 
-remote_receiver:
-  id: rx_id
-  pin:
-    number: GPIO32
-    mode:
-      input: true
-      output: true
-      pullup: true
-      open_drain: true
-    allow_other_uses: true
-  #filter: 250us # defaults to 50us
-  #idle: 2000us
-  #buffer_size: 100000b
-  #memory_blocks: 3 #8
-  dump: all
-#  dump:
-#    - rc_switch
-#    - raw
+#remote_receiver:
+#  id: rx_id
+#  pin:
+#    number: GPIO32
+#    mode:
+#      input: true
+#      output: true
+#      pullup: true
+#      open_drain: true
+#    allow_other_uses: true
+#  #filter: 250us # defaults to 50us
+#  #idle: 2000us
+#  #buffer_size: 100000b
+#  #memory_blocks: 3 #8
+#  dump: all
+##  dump:
+##    - rc_switch
+##    - raw
 
 remote_transmitter:
   id: tx_id
@@ -100,7 +93,7 @@ remote_transmitter:
       output: true
       pullup: true
       open_drain: true
-    allow_other_uses: true
+  #  allow_other_uses: true   # needs to be off w/ receiver commented(off)
   eot_level: false
   carrier_duty_percent: 100%
   on_transmit:
@@ -201,13 +194,12 @@ lvgl:
   bg_color: black
   widgets:
   - label:
+      id: lbl_hastatus
       text: "*"
-    #  text: Hello World!
       #align: center
       text_font: font_medium
       text_color: white
       # from above
-      id: lbl_hastatus
       #hidden: true
       align: top_right
       text_align: right
@@ -223,28 +215,34 @@ lvgl:
       outline_color: black
       y: 5
       #x: 1
+  on_resume:
+    then:
+      - script.execute: time_update
 
 time:
   - platform: homeassistant
-    id: time_ha
+    id: !extend ${time_id}
+    #id: ${time_id}
     on_time_sync:
       - script.execute: time_update
     on_time:
-      - minutes: '*'
-        seconds: 0
+      - seconds: 0
+        minutes: '*'
+        #minutes: /1
         then:
           - script.execute: time_update
+
+switch:
+  <<: !include components/lvgl-antiburn-switch.yaml
 
 script:
   - id: time_update
     then:
+      # - lambda: ESP_LOGD("TIME DEBUGGING", "%s", id(${time_id}).now().strftime("%I:%M").c_str());
       - lvgl.label.update:
           id: lbl_time
           text: !lambda |-
-            return id(time_ha).now().strftime("%I:%M");
+            return id(${time_id}).now().strftime("%I:%M");
+      - delay: .10s # there seems to be a race condition b/t lambda and display update and this resolves it.
       - component.update: display0
-    #  - logger.log: "update Time script ran"
-
-
-# ******ADD https://esphome.io/cookbook/lvgl.html#prevent-burn-in-of-lcd possible create a component
-# add backlight turn on/off at time (& maybe also when living room light turns off?)
+      - logger.log: "update Time script ran"
