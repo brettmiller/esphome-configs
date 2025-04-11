@@ -1,0 +1,12 @@
+substitutions:
+  device_name: "m5stack-atom-echo1"
+  name: "M5Stack Atom Echo 1"
+  description: M5Stack Atom Echo Voice Assistant
+  micro_wake_word_model: hey_jarvis
+
+packages:
+  device: !include devices/voice-assistant-atom-echo.yaml
+  <<: !include_dir_named common
+
+http_request:
+  verify_ssl: false

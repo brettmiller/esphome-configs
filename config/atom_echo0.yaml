@@ -9,6 +9,15 @@ packages:
   device: !include devices/voice-assistant-atom-echo.yaml
   <<: !include_dir_named common
 
+# tried this in attempt to fix the crash on announce, but it doesn't announce 
+# and still seems to crash. Need to continue using 'verify_ssl: false' for now.
+# It may be ok to also have it enabled, but haven't tested (atlest not throughly).
+#esp32:
+#  framework:
+#    sdkconfig_options:
+#      CONFIG_MBEDTLS_SSL_PROTO_TLS1_3: "y"
+
+# hack to fix crash on announce
 http_request:
   verify_ssl: false
 
