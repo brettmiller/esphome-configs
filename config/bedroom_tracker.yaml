@@ -8,7 +8,7 @@ packages:
   <<: !include_dir_named common
   board: !include boards/lolin_s3_mini.yaml
 
-<<: !include components/bluetooth_proxy+tracker-ble-wait-wifi.yaml
+<<: !include components/bluetooth_proxy+tracker.yaml
 
 esphome:
   on_boot:
