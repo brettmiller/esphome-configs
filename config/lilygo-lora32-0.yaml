@@ -14,9 +14,12 @@ packages:
   board: !include boards/esp32dev.yaml
   antiburn_time: !include components/lvgl-antiburn-time.yaml
 
+#<<: !include components/bluetooth_proxy+tracker-ble-wait-wifi.yaml
+<<: !include components/bluetooth_proxy+tracker.yaml
+
 external_components:
   - source: github://pr#7490
-    components: [ sx127x ]
+    components: [sx127x]
 
 api:
   # reciever doesn't seem to start until a code is sent, so send '0'
