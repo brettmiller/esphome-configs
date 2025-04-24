@@ -1,0 +1,27 @@
+# *** use with the lvgl-antiburn-switch.yaml component
+#
+# include under 'packages' w/ 
+# antiburn_time: !include components/lvgl-antiburn-time.yaml 
+# and if there is an existing time component in it use '!extend':
+# time:
+#   - id: !extend ${time_id}
+#     ...
+#   
+# 
+#
+# the on and off times could be variablized
+#
+time:
+  - platform: homeassistant
+    id: ${time_id}
+    on_time:
+      - hours: 2,3,4,5
+        minutes: 5
+        seconds: 0
+        then:
+          - switch.turn_on: switch_antiburn
+      - hours: 2,3,4,5
+        minutes: 35
+        seconds: 0
+        then:
+          - switch.turn_off: switch_antiburn
