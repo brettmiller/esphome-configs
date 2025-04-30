@@ -21,6 +21,7 @@ esphome:
       - "-std=gnu++11"
     build_flags:
       - "-std=gnu++17"
+
   #on_boot:
   #  then:
   #    - delay: 2s
