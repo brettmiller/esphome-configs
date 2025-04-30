@@ -3,9 +3,10 @@
 
 substitutions:
   device_name: office-desk
-  name: "Office Desk"
+  name: "Office-Desk"
   description: Office Desk controller (based on Upsy Desky - https://upsy-desky.tjhorner.dev)
   # Configurable options (Upsy Desky)
+  friendly_name: "Office Desk"
   desk_height_name: "Desk Height"
   target_desk_height_name: "Target Desk Height"
 
@@ -23,13 +24,13 @@ substitutions:
   button_m_pin: "18"
 
   # Runtime Config Defaults
-  default_height_units: "in" # Must be "in" or "cm"
+  default_height_units: "in"  # Must be "in" or "cm"
 
 packages:
   <<: !include_dir_named common
   board: !include boards/lolin_s3_mini.yaml
   # i2c: !include components/i2c.yaml
-  # Upsy Desky 
+  # Upsy Desky
   standing_desk: github://tjhorner/esphome-standing-desk/configs/template.yaml
   addon_presets: github://tjhorner/upsy-desky/firmware/addons/presets.yaml
   addon_stable_ids: github://tjhorner/upsy-desky/firmware/addons/stable-ids.yaml
@@ -48,7 +49,7 @@ esphome:
       # Wakes up the desk and reports height
       - uart.write:
           id: handset_tx
-          data: [ 0x0 ]
+          data: [0x0]
 
 light:
   <<: !include components/onboard_ws2812.yaml
