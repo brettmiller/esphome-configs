@@ -33,8 +33,9 @@ packages:
   # Upsy Desky
   standing_desk: github://tjhorner/esphome-standing-desk/configs/template.yaml
   addon_presets: github://tjhorner/upsy-desky/firmware/addons/presets.yaml
-  addon_stable_ids: github://tjhorner/upsy-desky/firmware/addons/stable-ids.yaml
   addon_runtime_config: github://tjhorner/upsy-desky/firmware/addons/runtime-config.yaml
+  # below is for "stable" entity IDs for http API that we aren't using
+  #addon_stable_ids: github://tjhorner/upsy-desky/firmware/addons/stable-ids.yaml
 
 esphome:
   on_boot:
