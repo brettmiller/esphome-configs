@@ -28,6 +28,7 @@ substitutions:
 packages:
   <<: !include_dir_named common
   board: !include boards/lolin_s3_mini.yaml
+  bluetooth: !include components/bluetooth_proxy+tracker.yaml
   # i2c: !include components/i2c.yaml
   # Upsy Desky 
   standing_desk: github://tjhorner/esphome-standing-desk/configs/template.yaml
