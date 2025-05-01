@@ -1,5 +1,6 @@
 ---
 # Upsy Desky config - based off of https://github.com/tjhorner/upsy-desky/blob/master/firmware/base.yaml (2024-04-29)
+# and using https://github.com/tjhorner/esphome-standing-desk/blob/master/configs/template.yaml (which is needed by upsy-desky)
 
 substitutions:
   device_name: office-desk
