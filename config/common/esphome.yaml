@@ -7,7 +7,8 @@
 #
 esphome:
   name: ${device_name}
+  friendly_name: ${name}
   comment: ${description}
   build_path: ../.build/${device_name}
-  name_add_mac_suffix: False
+  name_add_mac_suffix: false
 
