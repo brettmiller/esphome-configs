@@ -61,7 +61,3 @@ uart:
   id: handset_tx
   tx_pin: 43
   baud_rate: 9600
-
-button:
-  - platform: restart
-    name: "Restart"
