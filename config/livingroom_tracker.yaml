@@ -1,14 +1,13 @@
 ---
 substitutions:
-  device_name: livingroom-tracker 
+  device_name: livingroom-tracker
   name: "Living room tracker"
   description: Living room ble proxy & device tracker
 
 packages:
   <<: !include_dir_named common
   board: !include boards/lolin_s3_mini.yaml
-
-<<: !include components/bluetooth_proxy+tracker.yaml
+  btproxy: !include components/bluetooth_proxy+tracker.yaml
 
 esphome:
   on_boot:
@@ -21,5 +20,5 @@ esphome:
           green: 0%
           blue: 100%
 
-light: # colors are wrong type should be "RGB" not "GRB" from the include, variablize? 
+light:  # colors are wrong type should be "RGB" not "GRB" from the include, variablize?
   <<: !include components/onboard_ws2812.yaml

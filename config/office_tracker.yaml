@@ -7,8 +7,7 @@ substitutions:
 packages:
   <<: !include_dir_named common
   board: !include boards/lolin_s3_mini.yaml
-
-<<: !include components/bluetooth_proxy+tracker-ble-wait-wifi.yaml
+  btproxy: !include components/bluetooth_proxy+tracker-ble-wait-wifi.yaml
 
 esphome:
   on_boot:

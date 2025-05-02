@@ -13,9 +13,8 @@ packages:
   <<: !include_dir_named common
   board: !include boards/esp32dev.yaml
   antiburn_time: !include components/lvgl-antiburn-time.yaml
-
-#<<: !include components/bluetooth_proxy+tracker-ble-wait-wifi.yaml
-<<: !include components/bluetooth_proxy+tracker.yaml
+  btproxy: !include components/bluetooth_proxy+tracker.yaml
+  #btpoxy: !include components/bluetooth_proxy+tracker-ble-wait-wifi.yaml
 
 external_components:
   - source: github://pr#7490
@@ -144,7 +143,7 @@ display:
     model: "SSD1306 128x64"
     address: 0x3C
     #update_interval: 10s
-    update_interval: never # will this work and display b/c of the on_client_connect?
+    update_interval: never  # will this work and display b/c of the on_client_connect?
     #lambda: |-
     #  it.print(0, 0, id(font_small), "Hello World!");
 

@@ -4,10 +4,9 @@
 
 substitutions:
   device_name: office-desk
-  name: "Office-Desk"
+  name: "Office Desk"
   description: Office Desk controller (based on Upsy Desky - https://upsy-desky.tjhorner.dev)
   # Configurable options (Upsy Desky)
-  friendly_name: "Office Desk"
   desk_height_name: "Desk Height"
   target_desk_height_name: "Target Desk Height"
 
