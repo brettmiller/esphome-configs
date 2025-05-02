@@ -19,11 +19,10 @@ substitutions:
 packages:
   <<: !include_dir_named common
   i2c: !include components/i2c.yaml
+  btproxy: !include components/bluetooth_proxy+tracker.yaml
   # using modded code, not pulling from github so can't include as a package included 
   # at a higher level below
   <<: !include devices/everything-presence-lite.yaml
-
-<<: !include components/bluetooth_proxy+tracker.yaml
 
 #<<: !include devices/everything-presence-lite.yaml
 
