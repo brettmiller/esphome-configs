@@ -1,13 +1,13 @@
 ---
 substitutions:
-  device_name: office-tracker
-  name: "Office tracker"
-  description: Office ble proxy & device tracker
+  device_name: kitchen-tracker
+  name: "Kitchen Tracker"
+  description: Kitchen ble proxy & device tracker
 
 packages:
   <<: !include_dir_named common
   board: !include boards/lolin_s3_mini.yaml
-  btproxy: !include components/bluetooth_proxy+tracker-ble-wait-wifi.yaml
+  btproxy: !include components/bluetooth_proxy+tracker.yaml
 
 esphome:
   on_boot:
