@@ -10,6 +10,7 @@ packages:
 
 # ota: !remove
 # update: !remove
+captive_portal: !remove
 
 # :(  This feature is only available with frameworks ['arduino'].
 # media_player:

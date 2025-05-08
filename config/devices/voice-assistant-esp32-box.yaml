@@ -8,3 +8,4 @@ packages:
 # disable ota, it conflicts w/ common and update is dependent on it as well
 # ota: !remove
 # update: !remove
+captive_portal: !remove
