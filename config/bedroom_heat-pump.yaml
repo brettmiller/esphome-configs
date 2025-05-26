@@ -14,7 +14,8 @@ packages:
 ##<<: !include components/web_server.yaml
 
 external_components:
-  - source: github://muart-group/esphome@dev # they are working to move to github://muart-group/esphome-components
+  #- source: github://muart-group/esphome@dev # they are working to move to github://muart-group/esphome-components
+  - source: github://muart-group/esphome-components@dev # they are working on this github://muart-group/esphome-components
     components: [mitsubishi_itp]
 
 esphome:
@@ -46,7 +47,7 @@ logger:
 
 light:
   <<: !include components/onboard_ws2812.yaml
-  internal: true
+  internal: true # don't expose to Home Assistant
 
 uart:
   - id: hp_uart
@@ -65,7 +66,7 @@ climate:
     visual:
       temperature_step:
         target_temperature: 1.0
-        current_temperature: 0.1
+        current_temperature: 0.5
 
 select:
   - platform: mitsubishi_itp
@@ -105,6 +106,12 @@ sensor:
         - lambda: |-
             if (x > -63) return x;
             return NAN;
+    input_watts:
+      name: "Input Watts"
+      id: input_watts
+    lifetime_kwh:
+      name: "Lifetime KWH"
+      id: lifetime_kwh
 
 text_sensor:
   - platform: mitsubishi_itp
