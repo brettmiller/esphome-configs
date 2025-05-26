@@ -5,60 +5,112 @@ substitutions:
   description: Primary bedroom heat pump
   name: Bedroom heat pump
 
+
 packages:
   <<: !include_dir_named common
-  board: !include boards/esp32doit-devkit-v1.yaml
+  board: !include boards/lolin_s3_mini.yaml
+
+## Enable web server - requires connecting to https://oi.esphome.io for .js (or a local server to host them)
+##<<: !include components/web_server.yaml
 
 external_components:
-  #- source: github://geoffdavis/esphome-mitsubishiheatpump@develop # archived/depricated use echavet's which maintains same functionality 
-  - source: github://echavet/MitsubishiCN105ESPHome # https://github.com/echavet/MitsubishiCN105ESPHome
+  - source: github://muart-group/esphome@dev # they are working to move to github://muart-group/esphome-components
+    components: [mitsubishi_itp]
 
 esphome:
-  # Set platform options to use c++ 17 instead of 11
-  platformio_options:
-    build_unflags:
-      - "-std=gnu++11"
-    build_flags:
-      - "-std=gnu++17"
+  # turn on onboad led to red w/ brightness % (kind of an "on" status indicator)
+  # (dimmest is 11%, 12% turns on more reliably, off ≤ 10%)
+  # at some may use lambdas in the climate component to set colors per mode (cool/heat/idleq)
+  on_boot:
+    priority: 600 # default
+    then:
+      - delay: 2s
+      - light.turn_on:
+          id: onboard_led
+          brightness: 25%
+          red: 0%
+          green: 100%
+          blue: 0%
+      - delay: 7s
+      - light.turn_on:
+          id: onboard_led
+          brightness: 11%
+          red: 100%
+          green: 0%
+          blue: 100%
 
-  #on_boot:
-  #  then:
-  #    - delay: 2s
-  #    - light.turn_on:
-  #        id: ${device_id}_led
-  #        brightness: 15%
+logger:
+  logs:
+    # tone down the Outdoor Temp sensor msgs
+    sensor: INFO
 
-#light:
-#  - platform: neopixelbus
-#    id: ${device_id}_led
-#    #restore_mode: ALWAYS_ON
-#    type: GRB
-#    variant: WS2812
-#    method: ESP32_RMT_1
-#    #method: ESP32_RMT
-#    num_leds: 1
-#    pin: GPIO7
-#    name: "Bedroom heatpump led"
-#    # hack to reduce brightness, now set using 'on_boot:'
-#    #color_correct: [11%, 11%, 11%]
-
-# this works around a bug introduced in HA 2025.5.0
-sensor:
-  - platform: uptime
-    name: Uptime
+light:
+  <<: !include components/onboard_ws2812.yaml
+  internal: true
 
 uart:
-  id: hp_uart
-  baud_rate: 2400
-  tx_pin: 12
-  rx_pin: 13
+  - id: hp_uart
+    baud_rate: 2400  # Note: May be 2400, 4800, 9600 on some systems!
+    parity: EVEN
+    tx_pin: GPIO18 # s3 mini
+    rx_pin: GPIO16
 
 climate:
-  #- platform: mitsubishi_heatpump
-  - platform: cn105
-    # using "name: none" uses friendly name
-    name: "${name}"
+  - platform: mitsubishi_itp
     id: ${device_id}_climate
+    # using "name: none" uses friendly name
+    name: none
+    uart_heatpump: hp_uart
+    update_interval: 2s
     visual:
-      temperature_step: 1.0
+      temperature_step:
+        target_temperature: 1.0
+        current_temperature: 0.1
 
+select:
+  - platform: mitsubishi_itp
+    vane_position:
+      name: "Vane position"
+      id: vane_position
+
+binary_sensor:
+  - platform: mitsubishi_itp
+    defrost:
+      # Reports if system is in defrost
+      name: "Defrost"
+    filter_status:
+      # Reports if filter needs to be replaced (false = OK)
+      name: "Filter Status"
+    preheat:
+      # Reports if system is preheating
+      name: "Preheat"
+    standby:
+      # Reports if system is in standby
+      name: "Standby"
+
+sensor:
+  - platform: mitsubishi_itp
+    # not available
+    #compressor_frequency:
+    #  # Frequency in Hz of compressor (only some equipment)
+    #  name: "Compressor Frequency"
+    #  id: compressor_frequency
+    outdoor_temperature:
+      # Outdoor temperature as reported by equipment
+      name: "Outdoor Temperature"
+      id: outdoor_temperature
+      filters:
+      # return 'NAN' if temp is -63 C, causes HA to desplay "Unknown"
+      # https://muart-group.github.io/user/configuration/useful-snippets#dont-report-out-of-range-sensor-values
+        - lambda: |-
+            if (x > -63) return x;
+            return NAN;
+
+text_sensor:
+  - platform: mitsubishi_itp
+    actual_fan:
+      # Actual current fan speed (vs. set speed)
+      name: "Actual Fan"
+    error_code:
+      # Reports diagnostic error code
+      name: "Error Code"
