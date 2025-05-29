@@ -11,7 +11,7 @@ remote_package_shorthand: github://EverythingSmartHome/everything-presence-lite/
 #  ref: main
 
 ## extend the Max distance from 600 to 700 cm
-## moved to files this is included from to avoid it throwing "Shorthand only for strings." error 🤷
+## moved to files this is included from to avoid it throwing "Shorthand only for strings." error 🤷 (maybe an issue when not included as package?)
 #number:
 #  - id: !extend distance
 #    max_value: 700
