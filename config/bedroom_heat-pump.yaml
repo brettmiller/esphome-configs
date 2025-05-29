@@ -1,10 +1,11 @@
-
+---
 substitutions:
   device_name: bedroom-heat-pump
   device_id: bedroom_heat_pump
   description: Primary bedroom heat pump
   name: Bedroom heat pump
 
+# TODO: set LED color based on Action: idle, cooling, heating, etc (use lamda in climate component)
 
 packages:
   <<: !include_dir_named common
@@ -65,8 +66,8 @@ climate:
     update_interval: 2s
     visual:
       temperature_step:
-        target_temperature: 1
-        current_temperature: 1
+        target_temperature: 0.5
+        current_temperature: 0.5
 
 select:
   - platform: mitsubishi_itp
