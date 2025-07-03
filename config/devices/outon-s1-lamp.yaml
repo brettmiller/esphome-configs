@@ -1,3 +1,4 @@
+---
 # Common code for Outon S1 Lamp
 
 packages:
@@ -67,7 +68,7 @@ light:
     cold_white: output_cold
     warm_white: output_warm
 
-# https://esphome.io/components/light/beken_spi_led_strip 
+  # https://esphome.io/components/light/beken_spi_led_strip
   - platform: beken_spi_led_strip
     name: ${name} RGB
     rgb_order: RGB
