@@ -12,5 +12,6 @@ rules:
     allow-non-breakable-inline-mappings: true
   comments:
     require-starting-space: false
+    comments-indentation: false
   empty-lines:
     max-end: 1
