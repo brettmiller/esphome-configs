@@ -4,7 +4,7 @@ substitutions:
   name: Lilygo Lora32 0
   device_id: lilygo_lora32_0
   description: Lilygo TTGO Lora32 - 433MHz
-  # Set below to the id of or use as id of the display & time compoenets. Used in
+  # Set below to the id of or use as id of the display & time compenents. Used in
   # antiburn switch/time components so it updates when antiburn is turned off
   display_id: display0
   time_id: time_ha
@@ -16,9 +16,9 @@ packages:
   btproxy: !include components/bluetooth_proxy+tracker.yaml
   #btpoxy: !include components/bluetooth_proxy+tracker-ble-wait-wifi.yaml
 
-external_components:
-  - source: github://pr#7490
-    components: [sx127x]
+#external_components:
+#  - source: github://pr#7490
+#    components: [sx127x]
 
 api:
   # reciever doesn't seem to start until a code is sent, so send '0'
@@ -61,6 +61,8 @@ sx127x:
   rst_pin: GPIO23
   frequency: 433920000
   modulation: OOK
+  bitsync: on
+  packet_mode: false
   rx_start: false
   rx_floor: -90
   bandwidth: 50_0kHz
@@ -154,6 +156,7 @@ font:
   - file: "gfonts://Roboto"
     id: font_medium
     size: 20
+    glyphs: "*"
 #  - file: "gfonts://Roboto"
 #    id: font_large
 #    size: 40
@@ -166,7 +169,7 @@ font:
 #  - file: "gfonts://Noto+Sans+Symbols"
 #    id: icons_20
 #    size: 20
-#  - file: "fonts/materialdesignicons-webfont.ttf"
+#  - file: "fonts/materialdesignicons-webfont.ttf"  # don't think I could get this to work
 #    id: mdi_20
 #    size: 20
 
@@ -195,28 +198,28 @@ lvgl:
     - display0
   bg_color: black
   widgets:
-  - label:
-      id: lbl_hastatus
-      text: "*"
-      #align: center
-      text_font: font_medium
-      text_color: white
-      # from above
-      #hidden: true
-      align: top_right
-      text_align: right
-      #x: -2
-      y: -3
-  - label:
-      id: lbl_time
-      text: "00:00"
-      align: CENTER
-      text_align: CENTER
-      text_font: font_time
-      text_color: white
-      outline_color: black
-      y: 5
-      #x: 1
+    - label:
+        id: lbl_hastatus
+        text: "*"
+        #align: center
+        text_font: font_medium
+        text_color: white
+        # from above
+        #hidden: true
+        align: top_right
+        text_align: right
+        #x: -2
+        y: -3
+    - label:
+        id: lbl_time
+        text: "00:00"
+        align: CENTER
+        text_align: CENTER
+        text_font: font_time
+        text_color: white
+        outline_color: black
+        y: 5
+        #x: 1
   on_resume:
     then:
       - script.execute: time_update
