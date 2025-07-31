@@ -18,9 +18,8 @@ packages:
   <<: !include_dir_named common
   board: !include boards/lolin_s3.yaml
   i2c: !include components/i2c.yaml
-
-## <<: !include components/bluetooth_proxy+tracker.yaml
-#<<: !include components/bluetooth_proxy+tracker-ble-wait-wifi.yaml
+  btproxy: !include components/bluetooth_proxy+tracker.yaml
+  #btproxy: !include components/bluetooth_proxy+tracker-ble-wait-wifi.yaml
 
 esphome:
   # turn on onboad led to red w/ brightness %
@@ -50,8 +49,12 @@ logger:
 
 light:
   <<: !include components/onboard_ws2812.yaml
+debug: # needed by sensors/free_heap.yaml & cpu_frequency.yaml
+  update_interval: 20s
 
 sensor:
+  - <<: !include sensors/free_heap.yaml
+  - <<: !include sensors/cpu_frequency.yaml
   - <<: !include sensors/shtcx.yaml
   - <<: !include sensors/bh1750.yaml
   - <<: !include sensors/bed_sensor.yaml
