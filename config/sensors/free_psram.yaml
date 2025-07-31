@@ -1,0 +1,14 @@
+# sensor showing the amount of heap(memory) free
+#platform: template
+#name: "Free Heap"
+#lambda: "return ESP.getFreeHeap();"
+#update_interval: 30s
+#
+# requires component:
+# debug:
+#   update_interval: #s
+platform: debug
+psram:
+  name: "Free PSRAM"
+
+
