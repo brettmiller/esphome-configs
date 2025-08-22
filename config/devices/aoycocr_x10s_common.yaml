@@ -58,11 +58,6 @@ sensor:
       - multiply: 0.001 ## convert Wh to kWh
     unit_of_measurement: kWh
 
-text_sensor:
-  # Reports the ESPHome Version with compile date
-  - platform: version
-    name: ${name} ESPHome Version
-
 binary_sensor:
   # Reports when the button is pressed
   - platform: gpio
