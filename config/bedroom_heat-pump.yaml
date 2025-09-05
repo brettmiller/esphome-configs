@@ -21,7 +21,7 @@ external_components:
 
 esphome:
   # turn on onboad led to red w/ brightness % (kind of an "on" status indicator)
-  # (dimmest is 11%, 12% turns on more reliably, off ≤ 10%)
+  # (dimmest is 11%, 12% turns on more reliably, off ≤ 10%, reducing each color by same amount seems to maybe reduce brightness 🤷)
   # at some may use lambdas in the climate component to set colors per mode (cool/heat/idleq)
   on_boot:
     priority: 600 # default
@@ -37,9 +37,12 @@ esphome:
       - light.turn_on:
           id: onboard_led
           brightness: 11%
-          red: 100%
+          red: 50%
           green: 0%
-          blue: 100%
+          blue: 50%
+          #red: 100%
+          #green: 0%
+          #blue: 100%
 
 logger:
   logs:
