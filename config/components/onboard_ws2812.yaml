@@ -20,6 +20,7 @@
 - platform: esp32_rmt_led_strip
   id: onboard_led
   name: "${name} Led"
+  disabled_by_default: true
   rgb_order: ${onboard_led_rgb_order}
   chipset: WS2812
   # rmt_channel: 0 # only needed for Aruduino, not IFD
