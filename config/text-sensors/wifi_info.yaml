@@ -10,6 +10,13 @@
   ip_address:
     name: "${name} IP Address"
     icon: mdi:ip-network
+    filters: # Keeps sensor from continually sending updates when it hasn't changed
+     - lambda: |-
+          static std::string last;
+          if (x == last)
+            return {};
+          last = x;
+          return x;
   ssid:
     name: "${name} SSID"
     icon: mdi:wifi-settings
