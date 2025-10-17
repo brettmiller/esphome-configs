@@ -4,8 +4,8 @@ esp32:
   flash_size: 16MB
   framework:
     type: esp-idf
-    sdkconfig_options:
-      CONFIG_ESP32_S3_BOX_BOARD: "y"
+    #sdkconfig_options:
+    #  CONFIG_ESP32_S3_BOX_BOARD: "y"
 
 psram:
   mode: octal
