@@ -13,7 +13,7 @@ psram:
 
 ethernet:
   type: W5500
-  id: ethernet
+  id: eth
   clk_pin: GPIO13
   mosi_pin: GPIO11
   miso_pin: GPIO12
