@@ -10,7 +10,6 @@ packages:
   <<: !include_dir_named common
   board: !include boards/waveshare_esp32-s3_eth.yaml
   btproxy: !include components/bluetooth_proxy+tracker.yaml
-  # i2c: !include components/i2c.yaml
 
 # remove following from the included common files
 # can't have both ethernet and wifi components
