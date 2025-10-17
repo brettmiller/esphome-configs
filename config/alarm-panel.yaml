@@ -18,6 +18,7 @@ sensor:
   - id: !remove sensor_wifi_signal
   - id: !remove sensor_wifi_signal_percentage
 text_sensor:
+  - <<: !include text-sensors/ethernet_info.yaml
   - id: !remove wifi_info
 
 # Reports when the reed switchs from GPIO0X to GND is sensing a magnet and the door is closed.
