@@ -7,6 +7,7 @@
 # "stolen" from https://github.com/frenck/home-assistant-config/blob/ae44a5186d2a30254266e196b6c239cd4ef01250/esphome/text_sensors/wifi_info.yaml
 #
 - platform: wifi_info
+  id: wifi_info
   ip_address:
     name: "${name} IP Address"
     icon: mdi:ip-network
