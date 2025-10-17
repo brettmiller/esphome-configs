@@ -1,6 +1,5 @@
 ---
-# {{...}}=needs replacement
-# {{DESCRIPTION}}
+# This is for converting an alarm panel's door sensors using a Waveshare ESP32-S3 ETH with POE
 
 substitutions:
   device_name: alarm-panel
@@ -52,3 +51,4 @@ binary_sensor:
     inverted: False
   name: Office Door
   device_class: door
+
