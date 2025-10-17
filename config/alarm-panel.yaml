@@ -1,0 +1,52 @@
+---
+# {{...}}=needs replacement
+# {{DESCRIPTION}}
+
+substitutions:
+  device_name: alarm-panel
+  name: "Alarm Panel"
+  description: "Alarm Panel - Waveshare ESP32-S3 ETH w/ POE installed in alarm panel box for door sensors"
+
+packages:
+  <<: !include_dir_named common
+  board: !include boards/waveshare_esp32-s3_eth.yaml
+  btproxy: !include components/bluetooth_proxy+tracker.yaml
+  # i2c: !include components/i2c.yaml
+
+# remove following from the included common files
+# can't have both ethernet and wifi components
+wifi: !remove
+sensor:
+  - id: !remove sensor_wifi_signal
+  - id: !remove sensor_wifi_signal_percentage
+
+# Reports when the reed switchs from GPIO0X to GND is sensing a magnet and the door is closed.
+binary_sensor:
+- platform: gpio
+  pin:
+    number: GPIO00
+    mode: INPUT_PULLUP
+    inverted: False
+  name: Front Door
+  device_class: door
+- platform: gpio
+  pin:
+    number: GPIO01
+    mode: INPUT_PULLUP
+    inverted: False
+  name: Back Door
+  device_class: door
+- platform: gpio
+  pin:
+    number: GPIO02
+    mode: INPUT_PULLUP
+    inverted: False
+  name: Basement Door
+  device_class: door
+- platform: gpio
+  pin:
+    number: GPIO03
+    mode: INPUT_PULLUP
+    inverted: False
+  name: Office Door
+  device_class: door
