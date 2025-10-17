@@ -25,29 +25,41 @@ text_sensor:
 binary_sensor:
 - platform: gpio
   pin:
-    number: GPIO00
-    mode: INPUT_PULLUP
+    number: GPIO35
+    #mode: INPUT_PULLUP
+    mode:
+      input: true
+      pullup: true
     inverted: False
   name: Front Door
   device_class: door
 - platform: gpio
   pin:
-    number: GPIO01
-    mode: INPUT_PULLUP
+    number: GPIO36
+    #mode: INPUT_PULLUP
+    mode:
+      input: true
+      pullup: true
     inverted: False
   name: Back Door
   device_class: door
 - platform: gpio
   pin:
-    number: GPIO02
-    mode: INPUT_PULLUP
+    number: GPIO37
+    #mode: INPUT_PULLUP
+    mode:
+      input: true
+      pullup: true
     inverted: False
   name: Basement Door
   device_class: door
 - platform: gpio
   pin:
-    number: GPIO03
-    mode: INPUT_PULLUP
+    number: GPIO38
+    #mode: INPUT_PULLUP
+    mode:
+      input: true
+      pullup: true
     inverted: False
   name: Office Door
   device_class: door
