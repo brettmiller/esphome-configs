@@ -24,43 +24,43 @@ text_sensor:
 # Reports when the reed switchs from GPIO0X to GND is sensing a magnet and the door is closed.
 binary_sensor:
 - platform: gpio
-  pin:
-    number: GPIO35
-    #mode: INPUT_PULLUP
-    mode:
-      input: true
-      pullup: true
-    inverted: False
   name: Front Door
-  device_class: door
-- platform: gpio
   pin:
-    number: GPIO36
+    number: GPIO39
     #mode: INPUT_PULLUP
     mode:
       input: true
       pullup: true
     inverted: False
+  device_class: door
+- platform: gpio
   name: Back Door
-  device_class: door
-- platform: gpio
   pin:
-    number: GPIO37
+    number: GPIO40
     #mode: INPUT_PULLUP
     mode:
       input: true
       pullup: true
     inverted: False
-  name: Basement Door
   device_class: door
 - platform: gpio
+  name: Basement Doors
   pin:
-    number: GPIO38
+    number: GPIO41
     #mode: INPUT_PULLUP
     mode:
       input: true
       pullup: true
     inverted: False
+  device_class: door
+- platform: gpio
   name: Office Door
+  pin:
+    number: GPIO42
+    #mode: INPUT_PULLUP
+    mode:
+      input: true
+      pullup: true
+    inverted: False
   device_class: door
 
