@@ -73,9 +73,9 @@ uart:
   tx_pin: GPIO18 # s3 mini
   rx_pin: 
     number: GPIO16
-    mode: 
-      pullup: true
-      input: true
+    #mode:   # the need for this looks like it was resolved with a fallback implemented in the component in v1.5
+    #  pullup: true
+    #  input: true
   #tx_pin: GPIO7 # c3 mini
   #rx_pin: GPIO6
 
