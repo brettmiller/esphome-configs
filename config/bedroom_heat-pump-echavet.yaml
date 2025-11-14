@@ -90,7 +90,8 @@ climate:
     visual:
       temperature_step:
         target_temperature: 1
-        current_temperature: 0.5
+        current_temperature: 1
+        #current_temperature: 0.5
     # Various optional sensors, not all sensors are supported by all heatpumps
     compressor_frequency_sensor:
       name: Compressor Frequency
