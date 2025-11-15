@@ -58,7 +58,8 @@ display:
       - id: !extend muted_page
         lambda: |-
           it.fill(medium_red);
-          it.print((it.get_width() / 2), (it.get_height() / 2), id(font_date), Color::BLACK, TextAlign::CENTER, "MUTED");
+          //it.print((it.get_width() / 2), (it.get_height() / 2), id(font_date), Color::BLACK, TextAlign::CENTER, "MUTED");
+          it.print((it.get_width() / 2), (it.get_height() / 2), id(font_date), Color::WHITE, TextAlign::CENTER, "MUTED");
           id(draw_timer_timeline).execute();
           id(draw_active_timer_widget).execute();
           it.strftime((it.get_width() / 2), 20, id(font_time), Color::WHITE, TextAlign::CENTER, "%I:%M %p", id(time_ha).now());
