@@ -5,62 +5,75 @@ substitutions:
   device_name: alarm-panel
   name: "Alarm Panel"
   description: "Alarm Panel - Waveshare ESP32-S3 ETH w/ POE installed in alarm panel box for door sensors"
+  # these don't seem to expand out the files in common/*.yaml, with the `<<: !include`s so including here too
+  time_timezone: "America/Chicago"
+  ota_password: !secret esphome_ota_password
+  api_key: !secret esphome_api_key
+
 
 packages:
-  <<: !include_dir_named common
-  board: !include boards/waveshare_esp32-s3_eth.yaml
-  btproxy: !include components/bluetooth_proxy+tracker.yaml
+  #<<: !include_dir_named common
+  # have to manually include common components to be able to remove wifi_info text_sensor
+  <<: !include common/api.yaml
+  <<: !include common/esphome.yaml
+  <<: !include common/logger.yaml
+  <<: !include common/ota.yaml
+  <<: !include common/restart.yaml
+  <<: !include common/time.yaml
+  <<: !include boards/waveshare_esp32-s3_eth.yaml
+  <<: !include components/bluetooth_proxy+tracker.yaml
+  #<<: !include common/wifi.yaml # can remove this here instead of !remove below
 
 # remove following from the included common files
 # can't have both ethernet and wifi components
-wifi: !remove
-sensor:
-  - id: !remove sensor_wifi_signal
-  - id: !remove sensor_wifi_signal_percentage
+#wifi: !remove
+#sensor:
+#  - id: !remove sensor_wifi_signal
+#  - id: !remove sensor_wifi_signal_percentage
 text_sensor:
+  - <<: !include text-sensors/esphome_version.yaml # include here since common/text_sensors.yaml isn't being included to remove wifi_info
   - <<: !include text-sensors/ethernet_info.yaml
-  - id: !remove wifi_info
 
 # Reports when the reed switchs from GPIO0X to GND is sensing a magnet and the door is closed.
 binary_sensor:
-- platform: gpio
-  name: Front Door
-  pin:
-    number: GPIO39
-    #mode: INPUT_PULLUP
-    mode:
-      input: true
-      pullup: true
-    inverted: False
-  device_class: door
-- platform: gpio
-  name: Back Door
-  pin:
-    number: GPIO40
-    #mode: INPUT_PULLUP
-    mode:
-      input: true
-      pullup: true
-    inverted: False
-  device_class: door
-- platform: gpio
-  name: Basement Doors
-  pin:
-    number: GPIO41
-    #mode: INPUT_PULLUP
-    mode:
-      input: true
-      pullup: true
-    inverted: False
-  device_class: door
-- platform: gpio
-  name: Office Door
-  pin:
-    number: GPIO42
-    #mode: INPUT_PULLUP
-    mode:
-      input: true
-      pullup: true
-    inverted: False
-  device_class: door
+  - platform: gpio
+    name: Front Door
+    pin:
+      number: GPIO39
+      #mode: INPUT_PULLUP
+      mode:
+        input: true
+        pullup: true
+      inverted: false
+    device_class: door
+  - platform: gpio
+    name: Back Door
+    pin:
+      number: GPIO40
+      #mode: INPUT_PULLUP
+      mode:
+        input: true
+        pullup: true
+      inverted: false
+    device_class: door
+  - platform: gpio
+    name: Basement Doors
+    pin:
+      number: GPIO41
+      #mode: INPUT_PULLUP
+      mode:
+        input: true
+        pullup: true
+      inverted: false
+    device_class: door
+  - platform: gpio
+    name: Office Door
+    pin:
+      number: GPIO42
+      #mode: INPUT_PULLUP
+      mode:
+        input: true
+        pullup: true
+      inverted: false
+    device_class: door
 
