@@ -16,6 +16,7 @@ wifi:
   id: component_wifi
   ssid: "${wifi_ssid}"
   password: "${wifi_password}"
+  min_auth_mode: WPA2
   # reboot_timeout: 10min # default 15m
   reboot_timeout: 5min
   ap:
