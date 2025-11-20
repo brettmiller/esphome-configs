@@ -14,14 +14,22 @@ substitutions:
 packages:
   #<<: !include_dir_named common
   # have to manually include common components to be able to remove wifi_info text_sensor
-  <<: !include common/api.yaml
-  <<: !include common/esphome.yaml
-  <<: !include common/logger.yaml
-  <<: !include common/ota.yaml
-  <<: !include common/restart.yaml
-  <<: !include common/time.yaml
-  <<: !include boards/waveshare_esp32-s3_eth.yaml
-  <<: !include components/bluetooth_proxy+tracker.yaml
+  api: !include common/api.yaml
+  esphome: !include common/esphome.yaml
+  logger: !include common/logger.yaml
+  ota: !include common/ota.yaml
+  restart: !include common/restart.yaml
+  time: !include common/time.yaml
+  boards: !include boards/waveshare_esp32-s3_eth.yaml
+  ble: !include components/bluetooth_proxy+tracker.yaml
+  #<<: !include common/api.yaml
+  #<<: !include common/esphome.yaml
+  #<<: !include common/logger.yaml
+  #<<: !include common/ota.yaml
+  #<<: !include common/restart.yaml
+  #<<: !include common/time.yaml
+  #<<: !include boards/waveshare_esp32-s3_eth.yaml
+  #<<: !include components/bluetooth_proxy+tracker.yaml
   #<<: !include common/wifi.yaml # can remove this here instead of !remove below
 
 # remove following from the included common files
