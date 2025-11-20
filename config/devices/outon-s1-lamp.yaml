@@ -7,7 +7,7 @@ packages:
   #webserver: !include ../components/web_server.yaml
 
 wifi:
-  min_auth_mode: !remove # only available on esp32/esp8266
+  min_auth_mode: !remove # in common and only available on esp32/esp8266
 
 # ensure logger isn't using serial port, needed for UART
 logger:
