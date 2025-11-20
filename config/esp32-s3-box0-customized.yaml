@@ -53,13 +53,15 @@ display:
           //it.strftime((it.get_width() / 2), (it.get_height()-20), id(font_date), light_purple, TextAlign::CENTER, "%m-%d", id(time_ha).now()); // centered
           it.strftime((it.get_width()-110), 195, id(font_date), light_purple, "%m-%d", id(time_ha).now());
           it.printf(2, 195, id(font_date), Color::WHITE, " %.1f°F ", id(carport_temp).state);
-         # it.strftime((it.get_width() / 2), (it.get_height() / 50), id(font_time), Color::WHITE, TextAlign::CENTER, "%I:%M %p", id(time_ha).now());
-         # it.strftime(160, 85, id(font_time), Color::WHITE, TextAlign::CENTER, "%I:%M %p", id(time_ha).now());
+          //it.strftime((it.get_width() / 2), (it.get_height() / 50), id(font_time), Color::WHITE, TextAlign::CENTER, "%I:%M %p", id(time_ha).now());
+          //it.strftime(160, 85, id(font_time), Color::WHITE, TextAlign::CENTER, "%I:%M %p", id(time_ha).now());
       - id: !extend muted_page
         lambda: |-
-          it.fill(medium_red);
+          //it.fill(medium_red);
+          it.fill(idle_color);
           //it.print((it.get_width() / 2), (it.get_height() / 2), id(font_date), Color::BLACK, TextAlign::CENTER, "MUTED");
-          it.print((it.get_width() / 2), (it.get_height() / 2), id(font_date), Color::WHITE, TextAlign::CENTER, "MUTED");
+          it.print((it.get_width() / 2), (it.get_height() / 2), id(font_date), red, TextAlign::CENTER, "MUTED");
+          //it.print((it.get_width() / 2), (it.get_height() / 2), id(font_date), Color::WHITE, TextAlign::CENTER, "MUTED");
           id(draw_timer_timeline).execute();
           id(draw_active_timer_widget).execute();
           it.strftime((it.get_width() / 2), 20, id(font_time), Color::WHITE, TextAlign::CENTER, "%I:%M %p", id(time_ha).now());
