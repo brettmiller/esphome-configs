@@ -32,9 +32,7 @@ api:
           wait_time: 0s
     - script.execute: time_update
     - component.update: display0
-    # show symbol when connected (see lvgl: section).
-    # doesn't work well, toggles when it shouldn't and doesn't go off on wifi disconnect. maybe move to wifi on_connect/on_disconnect?
-    - lambda: ESP_LOGD("Client connect:", "%s", client_info.c_str());
+    #- lambda: ESP_LOGD("Client connect:", "%s", client_info.c_str());
 
 wifi:
   # doesn't seem to work if wifi is connected, disconnects, and reconnects
