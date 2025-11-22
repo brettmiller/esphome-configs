@@ -1,5 +1,5 @@
-#
-# switched from the muart-group external_component to this on 2025-11-04, b/c the other broke things
+---
+# switched from the muart-group external_component to this on 2025-11-04, b/c the muart-group broke things and this seems better maintained
 
 substitutions:
   device_name: bedroom-heat-pump
@@ -13,7 +13,7 @@ packages:
   board: !include boards/lolin_s3_mini.yaml
 
 external_components:
-  #- source: github://geoffdavis/esphome-mitsubishiheatpump@develop # archived/depricated use echavet's which maintains same functionality 
+  #- source: github://geoffdavis/esphome-mitsubishiheatpump@develop # archived/depricated use echavet's which maintains same functionality
   - source: github://echavet/MitsubishiCN105ESPHome # https://github.com/echavet/MitsubishiCN105ESPHome
 
 #esphome:
@@ -71,7 +71,7 @@ uart:
   #tx_pin: 12  # dev kit v1 tx/rx
   #rx_pin: 13
   tx_pin: GPIO18 # s3 mini
-  rx_pin: 
+  rx_pin:
     number: GPIO16
     #mode:   # the need for this looks like it was resolved with a fallback implemented in the component in v1.5
     #  pullup: true
