@@ -1,4 +1,10 @@
 ---
+# Control Mitsubishi Electric heat pump/air conditioner w/ CN105 communication connector
+#
+# my units:
+#   MSZ-GL09NA-U1 (indoor)
+#   MUZ-GL09NA-U2 (outdoor)
+
 # switched from the muart-group external_component to this on 2025-11-04, b/c the muart-group broke things and this seems better maintained
 
 substitutions:
@@ -87,6 +93,7 @@ climate:
     name: none
     id: ${device_id}_climate
     update_interval: 2s
+    fahrenheit_compatibility: true
     visual:
       temperature_step:
         target_temperature: 1
