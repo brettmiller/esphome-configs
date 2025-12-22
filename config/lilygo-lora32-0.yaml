@@ -35,15 +35,15 @@ api:
     #- lambda: ESP_LOGD("Client connect:", "%s", client_info.c_str());
 
 wifi:
-  # doesn't seem to work if wifi is connected, disconnects, and reconnects
-  on_connect:
-    - logger.log: "******WIFI connected******"
-    - lvgl.widget.show: lbl_hastatus
-    - component.update: display0
-  on_disconnect:
-    - logger.log: "******WIFI disconnected******"
-    - lvgl.widget.hide: lbl_hastatus
-    - component.update: display0
+  ## doesn't seem to work if wifi is connected, disconnects, and reconnects
+  #on_connect:
+  #  - logger.log: "******WIFI connected******"
+  #  - lvgl.widget.show: lbl_hastatus
+  #  - component.update: display0
+  #on_disconnect:
+  #  - logger.log: "******WIFI disconnected******"
+  #  - lvgl.widget.hide: lbl_hastatus
+  #  - component.update: display0
 
 esp32:
   framework:
@@ -196,18 +196,18 @@ lvgl:
     - display0
   bg_color: black
   widgets:
-    - label:
-        id: lbl_hastatus
-        text: "*"
-        #align: center
-        text_font: font_medium
-        text_color: white
-        # from above
-        #hidden: true
-        align: top_right
-        text_align: right
-        #x: -2
-        y: -3
+   # - label:
+   #     id: lbl_hastatus
+   #     text: "*"
+   #     #align: center
+   #     text_font: font_medium
+   #     text_color: white
+   #     # from above
+   #     #hidden: true
+   #     align: top_right
+   #     text_align: right
+   #     #x: -2
+   #     y: -3
     - label:
         id: lbl_time
         text: "00:00"
