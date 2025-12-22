@@ -99,7 +99,9 @@ climate:
     name: none
     id: ${device_id}_climate
     update_interval: 2s
-    fahrenheit_compatibility: true
+    # Fahrenheit compatibility mode - uses Mitsubishi's "custom" unit conversions, set to
+    # "true" for better support of Fahrenheit units in HomeAssistant (current temp is off from other room sensors, this off or on doesn't seem to change that)
+    fahrenheit_compatibility: true # different temp when set to heat vs cool (seems same w/ or w/o this)
     visual:
       temperature_step:
         target_temperature: 1
