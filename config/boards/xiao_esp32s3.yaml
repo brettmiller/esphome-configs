@@ -1,0 +1,11 @@
+---
+# Seed Studio XIAO ESP32-S3
+#
+# https://www.seeedstudio.com/XIAO-ESP32S3-p-5627.html
+#
+substitutions:
+  onboard_led_gpio: GPIO21
+  onboard_led_rgb_order: GRB
+
+esp32:
+  board: seeed_xiao_esp32s3
