@@ -19,9 +19,9 @@ wifi:
   min_auth_mode: WPA2
   # reboot_timeout: 10min # default 15m
   reboot_timeout: 5min
-  ap:
-    ssid: "${device_name}_ap"
-    password: "${wifi_ap_password}"
+  #ap:            # I never use this and connect wired when a device has issues
+  #  ssid: "${device_name}_ap"
+  #  password: "${wifi_ap_password}"
 
 # captive_portal:
 
