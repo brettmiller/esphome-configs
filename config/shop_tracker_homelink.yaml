@@ -1,0 +1,179 @@
+---
+substitutions:
+  device_name: shop-tracker-homelink
+  name: "Shop tracker homelink"
+  description: Shop ble proxy & device tracker + homelink receiver (& transmitter - disable by default)
+
+packages:
+  <<: !include_dir_named common
+  board: !include boards/xiao_esp32s3.yaml
+  btproxy: !include components/bluetooth_proxy+tracker-ble-wait-wifi.yaml
+
+esphome:
+  on_boot:
+    then:
+      - delay: 2s
+      - light.turn_on:
+          id: onboard_led
+          brightness: 50%
+          red: 80%
+          green: 0%
+          blue: 100%
+light:
+  <<: !include components/onboard_ws2812.yaml
+
+spi:
+  clk_pin: GPIO7    # D8 on XIAO silkscreen
+  miso_pin: GPIO8   # D9
+  mosi_pin: GPIO9   # D10
+
+cc1101:
+  cs_pin: GPIO4     # D3
+  frequency: 315MHz
+  modulation_type: ASK/OOK
+  output_power: 10  # max +10 dBm
+
+# Dual-pin wiring: GDO0 → TX, GDO2 → RX
+
+# ── Receiver — GDO2 pin ────────────────────────────────────────────────
+# Princeton protocol is the standard fixed-code OOK protocol used by
+# SC2260/PT2262 remotes. The on_princeton trigger decodes received
+# Princeton frames and exposes the code as integer x.code.
+# dump: all logs every received signal — remove once codes are confirmed.
+remote_receiver:
+  pin: GPIO2            # D1 → CC1101 GDO2
+  #dump: #all
+  #  - rc_switch         # logs protocol number and binary data string
+  #  #- raw         # logs protocol number and binary data string
+  tolerance: 25%
+  # on_rc_switch fires for every decoded RC-Switch frame.
+  # x.code is the decoded value as uint64_t.
+  # x.protocol is the protocol number (1-8) ESPHome matched — we
+  # ignore it here and match only on code value, which is more reliable.
+  # Note: after programming HomeLink, press each button and check the
+  # ESPHome log for the actual decoded code. If the values differ from
+  # the hex codes below (e.g. due to bit-order differences between
+  # ESPHome and the RC-Switch library), update the comparisons to match
+  # whatever the log reports.
+#  on_rc_switch:
+#    - if:
+#        condition:
+#          lambda: 'return x.code == 0b001001101001011110100100;'
+#        then:
+#          - homeassistant.event:
+#              event: esphome.homelink_button
+#              data:
+#                button: "1"
+#    - if:
+#        condition:
+#          lambda: 'return x.code == 0b001101110111011001010100;'
+#        then:
+#          - homeassistant.event:
+#              event: esphome.homelink_button
+#              data:
+#                button: "2"
+#    - if:
+#        condition:
+#          lambda: 'return x.code == 0b000101001011110010100100;'
+#        then:
+#          - homeassistant.event:
+#              event: esphome.homelink_button
+#              data:
+#                button: "3"
+binary_sensor:
+  - platform: remote_receiver
+    name: "Ioniq 5 HL Button 1"
+    rc_switch_raw:
+      code: '001001101001011110100100' # Use your binary from logs
+      protocol: 1
+    filters:
+      - delayed_off: 500ms # Keeps sensor on briefly to avoid flickering
+  - platform: remote_receiver
+    name: "Ioniq 5 HL Button 2"
+    rc_switch_raw:
+      code: '001101110111011001010100' # Use your binary from logs
+      protocol: 1
+    filters:
+      - delayed_off: 500ms # Keeps sensor on briefly to avoid flickering
+  - platform: remote_receiver
+    name: "Ioniq 5 HL Button 3"
+    rc_switch_raw:
+      code: '000101001011110010100100' # Use your binary from logs
+      protocol: 1
+    filters:
+      - delayed_off: 500ms # Keeps sensor on briefly to avoid flickering
+
+## ── Transmitter and buttons (for programming HomeLink) ─────────────────────────
+#
+# for some reason the transmitter fails on startup, I can program w/ Flipper Zero, so not going worry about it for now
+#
+#remote_transmitter:
+#  pin: GPIO3        # D2 → GDO0
+#  carrier_duty_percent: 100%
+#  on_transmit:
+#    then:
+#      - cc1101.begin_tx
+#  on_complete:
+#    then:
+#      - cc1101.begin_rx
+#
+## Princeton protocol timing: pulse_length 350µs is typical for SC2262.
+## sync [1,31] = 1 high + 31 low pulse lengths (≈350µs + 10850µs gap)
+## zero [1,3]  = 1 high + 3 low pulse lengths
+## one  [3,1]  = 3 high + 1 low pulse lengths
+##
+## Binary strings are the 24-bit representation of each hex code,
+## which is exactly what on_princeton will decode on receive.
+##   0xA1B2C3 = 101000011011001011000011
+##   0xD4E5F6 = 110101001110010111110110
+##   0x789ABC = 011110001001101010111100
+##
+## Repeat 10 times to give enough time to hold the HomeLink button.
+#button:
+#  - platform: template
+#    name: "Program HomeLink 1"
+#    on_press:
+#      - repeat:
+#          count: 10
+#          then:
+#            - remote_transmitter.transmit_rc_switch_raw:
+#                code: '101000011011001011000011'
+#                protocol:
+#                  pulse_length: 350
+#                  sync: [1, 31]
+#                  zero: [1, 3]
+#                  one:  [3, 1]
+#                  inverted: false
+#            - delay: 10ms
+#
+#  - platform: template
+#    name: "Program HomeLink 2"
+#    on_press:
+#      - repeat:
+#          count: 10
+#          then:
+#            - remote_transmitter.transmit_rc_switch_raw:
+#                code: '110101001110010111110110'
+#                protocol:
+#                  pulse_length: 350
+#                  sync: [1, 31]
+#                  zero: [1, 3]
+#                  one:  [3, 1]
+#                  inverted: false
+#            - delay: 10ms
+#
+#  - platform: template
+#    name: "Program HomeLink 3"
+#    on_press:
+#      - repeat:
+#          count: 10
+#          then:
+#            - remote_transmitter.transmit_rc_switch_raw:
+#                code: '011110001001101010111100'
+#                protocol:
+#                  pulse_length: 350
+#                  sync: [1, 31]
+#                  zero: [1, 3]
+#                  one:  [3, 1]
+#                  inverted: false
+#            - delay: 10ms
