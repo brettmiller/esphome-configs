@@ -6,3 +6,5 @@ builds
 cache/*
 config/.build
 config/test*.yaml
+config/.device-builder.json
+config/.device-builder.lock
