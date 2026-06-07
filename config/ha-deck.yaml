@@ -1,0 +1,322 @@
+---
+# https://github.com/strange-v/ha_deck for wt32-sc01-plus-0 
+
+substitutions:
+  device_name: ha-deck0 
+  name: "HA_Deck 0"
+  description: "HA_Deck WT32-SC01-Plus-0 display"
+  SCREEN_MAIN: main
+  SCREEN_ROOMS: rooms
+  SCREEN_KITCHEN: sliders
+  SCREEN_LED: led
+
+esphome:
+  platformio_options:
+    board_upload.maximum_ram_size: 327680
+    board_upload.maximum_size: 16777216
+    #board_build.partitions: "../../../other/custom_partitions_3584.csv"
+
+packages:
+  <<: !include_dir_named common
+  board: !include boards/wt32-sc01-plus.yaml
+
+external_components:
+  - source:
+      type: git
+      url: https://github.com/strange-v/ha_deck
+      ref: main
+    components: [ hd_device_sc01_plus, ha_deck ]
+
+#esphome:
+#  name: ha-deck1
+#  friendly_name: ha-deck1
+#  # In this way, custom partitions can be configured and flushed (not over OTA!)
+#  platformio_options:
+#    board_upload.maximum_ram_size: 327680
+#    board_upload.maximum_size: 16777216
+#    board_build.partitions: "../../../custom_partitions_3584.csv"
+
+#time:
+#  - platform: homeassistant
+#    id: deck_time
+#    timezone: ${time_timezone}
+#    on_time:
+#      - cron: '* * * * * *'
+#        then:
+#          lambda: |-
+#            char buff[10] = "-";
+#            auto time = id(deck_time).now();
+#            if (time.is_valid())
+#              //sprintf(buff, "%02d:%02d:%02d", time.hour, time.minute, time.second);
+#              int display_hour = (time.hour == 0) ? 12 : (time.hour > 12) ? time.hour - 12 : time.hour;
+#              sprintf(buff, "%02d:%02d:%02d %s", display_hour, time.minute, time.second, 
+#        (time.hour < 12) ? "AM" : "PM");
+#            id(local_time).set_value(std::string(buff));
+
+sensor:
+  - platform: homeassistant
+    name: "Outside Temperature"
+    id: outside_temperature_sensor
+    entity_id: sensor.carport_temperature
+    unit_of_measurement: "°F"
+    accuracy_decimals: 1
+
+binary_sensor:
+  - platform: homeassistant
+    name: "Dining Room Light State"
+    id: dining_room_light_state
+    entity_id: switch.dining_room_light_top
+
+number:
+  - platform: template
+    id: screen_brightness
+    name: Active screen brightness
+    min_value: 0
+    max_value: 100
+    step: 5
+    initial_value: 75
+    restore_value: true
+    set_action:
+      - lambda: |-
+          if (!id(deck).get_inactivity())
+            id(device).set_brightness(x);
+  - platform: template
+    id: inactive_screen_brightness
+    name: Inactive screen brightness
+    min_value: 0
+    max_value: 100
+    step: 5
+    initial_value: 20
+    restore_value: true
+    set_action:
+      - lambda: |-
+          if (id(deck).get_inactivity())
+            id(device).set_brightness(x);
+  #- platform: template
+  #  id: dummy_temperature_sensor
+  #  name: Outside Temperature
+  #  min_value: -10
+  #  max_value: 30
+  #  step: 0.5
+  #  initial_value: 20.2
+  #  optimistic: true
+  #  mode: box
+
+#output:
+#  - platform: ledc
+#    pin: 10
+#    id: out_10
+#
+#light:
+#  - platform: monochromatic
+#    id: dummy_light
+#    name: Dummy
+#    output: out_10
+
+switch:
+  - platform: homeassistant
+    name: "Dining Room Light"
+    id: dining_room_light
+    entity_id: switch.dining_room_light_top
+
+hd_device_sc01_plus:
+  id: device
+  brightness: 75
+
+ha_deck:
+  id: deck
+  main_screen: ${SCREEN_MAIN}
+  inactivity:
+    period: 60 # seconds
+    blank_screen: true
+  on_inactivity_change:
+    lambda:  |-
+      if (x) {
+        id(device).set_brightness(id(inactive_screen_brightness).state);
+      } else {
+        id(device).set_brightness(id(screen_brightness).state);
+      }
+  screens:
+    - name: ${SCREEN_MAIN}
+      widgets:
+        - type: value-card
+          #id: local_time
+          id: time_sensor
+          position: 8, 8
+          dimensions: 228x96
+          text: "Time"
+          enabled: return true;
+          value: |- # I added this so it doesn't need the time: cron lamda and uses homeassistant_time from common/time.yaml and 12hr format
+            return id(homeassistant_time).now().strftime("%l:%M:%S %p");
+          on_click:
+            - logger.log: "Time clicked"
+        - type: button
+          position: 8, 112
+          text: "Favorite"
+          icon: 󰋑
+          visible: |-
+            return true;
+        - type: value-card
+          id: outside_temperature
+          position: 126, 112
+          text: Outside
+          icon: 󰔏
+          unit: °F
+          enabled: return true;
+          value: |-
+            char buff[10] = "-";
+            sprintf(buff, "%.1f", id(outside_temperature_sensor).state);
+            return std::string(buff);
+        - type: button
+          position: 362, 8
+          text: Rooms
+          icon: 󰠡
+          enabled: return true;
+          on_click:
+            lambda: |-
+                id(deck).switch_screen("$SCREEN_ROOMS");
+          on_long_press:
+            - logger.log: "Rooms long pressed"
+        - type: button
+          position: 8, 216
+          text: Dining
+          icon: 󰝩
+          toggle: true
+          enabled: return true;
+          checked: |-
+            return id(dining_room_light).state; // this works if a switch is defined w/ the id: dining_room_light
+          #  return id(dining_room_light_state).state; // this also works if a binary_sensor is defined w/ the id: dining_room_light_state
+          on_turn_on:
+            - switch.turn_on:
+                id: dining_room_light
+          on_turn_off:
+            - switch.turn_off:
+                id: dining_room_light
+          ## The above works (w/ a switch:...platform: homeassistant) and so does the below using homeassistant.service 
+          #on_turn_on:
+          #  homeassistant.service:
+          #    service: switch.turn_on
+          #    data:
+          #      entity_id: switch.dining_room_light_top 
+          #on_turn_off:
+          #  homeassistant.service:
+          #    service: switch.turn_off
+          #    data:
+          #      entity_id: switch.dining_room_light_top
+        - type: button
+          position: 126, 216
+          text: Brightness
+          icon: 󰖨
+          enabled: return true;
+          on_click:
+            lambda: id(deck).switch_screen("$SCREEN_LED");
+    - name: ${SCREEN_ROOMS}
+      widgets:
+        - type: button
+          position: 8, 8
+          icon: 󰁍
+          enabled: |-
+            return true;
+          on_click:
+            then:
+            - lambda: |-
+                id(deck).switch_screen("$SCREEN_MAIN");
+        - type: button
+          position: 126, 8
+          text: "Living Room"
+          icon: 󰒹
+          enabled: |-
+            return true;
+          on_click:
+            then:
+            - lambda: |-
+                id(deck).switch_screen("$SCREEN_MAIN");
+        - type: button
+          position: 244, 8
+          text: "Primary Bedroom"
+          icon: 󰿒
+          enabled: |-
+            return true;
+          on_click:
+            then:
+            - lambda: |-
+                id(deck).switch_screen("$SCREEN_MAIN");
+        - type: button
+          position: 362, 8
+          text: "Edan's room"
+          icon: 󰢠
+          enabled: |-
+            return true;
+          on_click:
+            then:
+            - lambda: |-
+                id(deck).switch_screen("$SCREEN_MAIN");
+        - type: button
+          position: 8, 112
+          text: "Kitchen"
+          icon: 󰩰
+          enabled: |-
+            return true;
+          on_click:
+            then:
+            - lambda: |-
+                id(deck).switch_screen("$SCREEN_MAIN");
+        - type: button
+          position: 126, 112
+        #  text: "Bathroom"
+        #  icon: 󰦠
+        #  enabled: |-
+        #    return true;
+        #  on_click:
+        #    then:
+        #    - lambda: |-
+        #        id(deck).switch_screen("$SCREEN_MAIN");
+        #- type: button
+        #  position: 244, 112
+        #  text: "Toilet"
+        #  icon: 󰦫
+        #  enabled: |-
+        #    return true;
+        #  on_click:
+        #    then:
+        #    - lambda: |-
+        #        id(deck).switch_screen("$SCREEN_MAIN");
+        #- type: button
+        #  position: 362, 112
+        #  text: "Corridor"
+        #  icon: 󰾑
+        #  enabled: |-
+        #    return true;
+        #  on_click:
+        #    then:
+        #    - lambda: |-
+        #        id(deck).switch_screen("$SCREEN_MAIN");
+        #- type: button
+        #  position: 8, 216
+          text: "Hallway"
+          icon: 󰷺
+          enabled: |-
+            return true;
+          on_click:
+            then:
+            - lambda: |-
+                id(deck).switch_screen("$SCREEN_MAIN");
+    - name: ${SCREEN_LED}
+      widgets:
+        - type: button
+          position: 0, 0
+          dimensions: 48x320
+          icon: 󰅁
+          enabled: return true;
+          on_click:
+            - lambda: id(deck).switch_screen("$SCREEN_MAIN");
+        - type: slider
+          position: 200, 8
+          dimensions: 100x304
+          text: Brightness
+          min: 0
+          max: 100
+          enabled: return true;
+          value: return id(device).get_brightness();
+          on_change:
+            lambda: id(device).set_brightness(x);
