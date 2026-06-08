@@ -31,8 +31,8 @@ number:
   - id: !extend distance
     max_value: 700
     initial_value: 700
-  - id: !extend zone2_begin_y
-    max_value: 7000
-  - id: !extend zone2_end_y
-    max_value: 7000
+# - id: !extend zone2_begin_y
+#   max_value: 7000
+# - id: !extend zone2_end_y
+#   max_value: 7000
 
