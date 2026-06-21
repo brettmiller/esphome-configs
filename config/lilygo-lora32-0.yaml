@@ -16,9 +16,16 @@ packages:
   btproxy: !include components/bluetooth_proxy+tracker.yaml
   #btpoxy: !include components/bluetooth_proxy+tracker-ble-wait-wifi.yaml
 
+
 #external_components:
 #  - source: github://pr#7490
 #    components: [sx127x]
+
+esp32:
+  framework:
+    type: esp-idf
+    advanced:
+      sram1_as_iram: true
 
 api:
   # reciever doesn't seem to start until a code is sent, so send '0'
@@ -44,10 +51,6 @@ wifi:
   #  - logger.log: "******WIFI disconnected******"
   #  - lvgl.widget.hide: lbl_hastatus
   #  - component.update: display0
-
-esp32:
-  framework:
-    type: esp-idf
 
 spi:
   clk_pin: GPIO5
