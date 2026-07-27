@@ -1,5 +1,6 @@
 ---
-# https://github.com/strange-v/ha_deck for wt32-sc01-plus-0 
+# https://github.com/strange-v/ha_deck for wt32-sc01-plus-0
+# ha_deck hasn't been updated in 3+years & there have been a lot of esphome lvgl updates, probably better options not - bm 2026/07
 
 substitutions:
   device_name: ha-deck0 
