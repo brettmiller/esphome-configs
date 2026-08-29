@@ -7,6 +7,7 @@ substitutions:
 
 packages:
   device: !include devices/outon-s1-lamp.yaml
+  btproxy: !include components/bk72xx_bluetooth_proxy+tracker.yaml
   # web_server: !include components/web_server.yaml
 
 #### Pin scan (from libretiny esphome-kickstart)
