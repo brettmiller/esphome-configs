@@ -74,7 +74,7 @@ light:
   # https://esphome.io/components/light/beken_spi_led_strip
   - platform: beken_spi_led_strip
     name: ${name} RGB
-    rgb_order: RGB
+    channel_colors: RGB
     pin: P16
     num_leds: 32
     chipset: ws2812
