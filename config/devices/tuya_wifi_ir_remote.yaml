@@ -10,7 +10,6 @@ wifi:
 
 bk72xx:
   board: cbu # https://docs.libretiny.eu/boards/cbu
-  #board: cb3s # https://docs.libretiny.eu/boards/cb3s/
 
 light:
   - platform: status_led      # Used as a status LED during errors, and status_light when OK. https://esphome.io/components/light/status_led
@@ -37,14 +36,8 @@ binary_sensor:                # Button, https://esphome.io/components/binary_sen
     on_release:
       - light.turn_off: status_light
 
-# Home Assistant sensor to store received remote command data
-text_sensor:
-  - platform: template
-    name: Learned Command
-    icon: mdi:remote
-    id: learned_command
-
 remote_receiver:
+  id: ir_rx
   pin:
     number: P8 # was P7 - CBU-based boards (S11 reference) use P7 for TX and P8 for RX
     inverted: true
@@ -54,128 +47,19 @@ remote_receiver:
       pullup: true
   tolerance: 25%
   dump: all
-  # dump: pronto
-  # dump: raw
-  # dump: samsung
-  # on_samsung:
-  #     - if:
-  # # If Samsung code is received
-  #         condition:
-  #           lambda: 'return id(remote_learn_switch).state;'
-  #         then:
-  #           - lambda: |-
-  #               id(remote_learn_switch).publish_state(false);
-  #               std::string log_output = "Samsung: Data = 0x" + esphome::format_hex((uint32_t)x.data) + ", nbits = " + esphome::to_string(x.nbits);
-  #               id(learned_command).publish_state(log_output.c_str());
-  #           - delay: 80ms
-  #           - light.turn_on: status_light
-  #           - delay: 500ms
-  #           - light.turn_off: status_light
-  # # If Sony code is received
-  # on_sony:
-  #   - if:
-  #       condition:
-  #         lambda: 'return id(remote_learn_switch).state;'
-  #       then:
-  #         - lambda: |-
-  #             id(remote_learn_switch).publish_state(false);
-  #             std::string log_output = "Sony: Data = 0x" + esphome::format_hex(x.data) + ", nbits = " + esphome::to_string(x.nbits);
-  #             id(learned_command).publish_state(log_output.c_str());
-  #         - delay: 80ms
-  #         - light.turn_on: status_light
-  #         - delay: 500ms
-  #         - light.turn_off: status_light
-  # Pronto decodes any received signal, not just a known protocol - catches everything Samsung/Sony miss
-  on_pronto:
-    - if:
-        condition:
-          lambda: 'return id(remote_learn_switch).state;'
-        then:
-          - lambda: |-
-              id(remote_learn_switch).publish_state(false);
-              std::string log_output = "Pronto: Data = " + x.data;
-              ESP_LOGD("ir_pronto", "%s", log_output.c_str());
-              id(learned_command).publish_state(log_output.c_str());
-          - delay: 80ms
-          - light.turn_on: status_light
-          - delay: 500ms
-          - light.turn_off: status_light
-  # Unconditional raw-timing logger, independent of the Learn Command switch - enable to sanity-check
-  # a Pronto capture's underlying timings in the ESPHome log. Raw, like Pronto, decodes every
-  # received signal with no protocol match required, so it always fires (not gated on the switch).
-  # on_raw:
-  #   - lambda: |-
-  #       std::string raw_str = "[";
-  #       for (size_t i = 0; i < x.size(); i++) {
-  #         if (i > 0)
-  #           raw_str += ", ";
-  #         raw_str += esphome::to_string(x[i]);
-  #       }
-  #       raw_str += "]";
-  #       ESP_LOGD("ir_raw", "Raw: Data = %s", raw_str.c_str());
 
 remote_transmitter:
+  id: ir_tx
   pin: P7 # was P26 - CBU-based boards (S11 reference) use P7 for TX and P8 for RX
   # Infrared remotes use a 50% carrier signal
   carrier_duty_percent: 50%
 
-switch:
-# Home Assistant controlled switch - to enable "learning mode"
-  - platform: template
-    name: Learn Command
-    id: remote_learn_switch
-    icon: mdi:remote
-    optimistic: true
-# IR codes to send from HA:
-# Examples
-# FAN
-#  - platform: template
-#    name: Fan On/Speed
-#    icon: mdi:fan
-#    turn_on_action:
-#      - light.turn_on: status_light
-#      - remote_transmitter.transmit_raw:
-#          carrier_frequency: 38kHz
-#          code: [1155, -438, 1250, -403, 437, -1250, 1291, -396, 1282, -406, 437, -1260, 428, -1250, 437, -1264, 434, -1240, 437, -1250, 1295, -393, 469, -7947, 1303, -406, 1291, -397, 468, -1219, 1281, -413, 1275, -406, 437, -1250, 441, -1250, 434, -1251, 437, -1263, 425, -1250, 1281, -410, 468, -7948, 1299, -406, 1282, -406, 447, -1240, 1250, -438, 1263, -424, 438, -1278, 409, -1254, 437, -1266, 418, -1250, 444, -1247, 1247, -438, 437, -7979, 1281, -428, 1250, -437, 438, -1263, 1237, -437, 1250, -438, 419, -1268, 407, -1281, 406, -1294, 425, -1250, 406, -1294, 1237, -438, 406]
-#      - delay: 60ms
-#      - light.turn_off: status_light
-#  - platform: template
-#    name: Fan Off
-#    icon: mdi:fan-off
-#    turn_on_action:
-#      - light.turn_on: status_light
-#      - remote_transmitter.transmit_raw:
-#          carrier_frequency: 38kHz
-#          code: [1164, -389, 1288, -399, 469, -1266, 1232, -414, 1275, -409, 441, -1274, 444, -1243, 437, -1267, 420, -1253, 434, -1267, 420, -1253, 1247, -7185, 1250, -441, 1246, -379, 472, -1274, 1266, -390, 1284, -403, 469, -1266, 421, -1253, 434, -1253, 437, -1246, 441, -1247, 439, -1264, 1240, -7165, 1271, -399, 1298, -390, 468, -1253, 1252, -417, 1265, -412, 462, -1250, 442, -1248, 435, -1253, 434, -1266, 421, -1256, 431, -1254, 1249, -7167, 1265, -444, 1243, -410, 481, -1233, 1287, -400, 1297,  -390, 437, -1254, 434, -1266, 421, -1253, 434, -1249, 446, -1255, 440, -1240, 447]
-#      - delay: 60ms
-#      - light.turn_off: status_light
-#  - platform: template
-#    name: Fan Osc
-#    icon: mdi:fan-chevron-up
-#    turn_on_action:
-#      - light.turn_on: status_light
-#      - remote_transmitter.transmit_raw:
-#          carrier_frequency: 38kHz
-#          code: [1188, -403, 1298, -389, 437, -1250, 1291, -396, 1283, -403, 438, -1259, 428, -1249, 1281, -406, 437, -1256, 431, -1249, 438, -1259, 427, -8011, 1267, -406, 1284, -406, 434, -1250, 1280, -407, 1294, -392, 438, -1249, 437, -1288, 1243, -437, 406, -1291, 396, -1281, 406, -1281, 409, -8006, 1268, -437, 1249, -438, 406, -1290, 1240, -437, 1253, -434, 406, -1280, 406, -1281, 1259, -428, 406, -1280, 406, -1291, 409, -1268, 406, -8016, 1288, -410, 1249, -438, 406, -1293, 1237, -437, 1250, -437, 406, -1291, 396, -1280, 1263, -424, 406, -1281, 437, -1250, 416, -1270, 438, -7994, 1252, -437, 1259, -428, 406, -1280, 1260, -427, 1250, -437, 437, -1260, 427, -1249, 406, -1281, 404, -1293, 427, -1250, 437, -1263, 393, -8010, 1267, -437, 1255, -438, 431, -1250, 1249, -534, 1166, -424, 406, -1281, 406, -1294, 424, -1249, 438, -1259, 396, -1281, 437, -1250, 409, -8007, 1267, -437, 1250, -437, 406, -1291, 1239, -438, 1252, -437, 406, -1278, 406, -1295, 399, -1283, 396, -1281, 406, -1291, 396, -1281, 409, -8105, 1176, -462, 1218, -469, 375, -1286, 1246, -470, 1217, -438, 406, -1292, 396, -1282, 406, -1295, 393, -1281, 406, -1282, 416, -1272, 406]
-#      - delay: 60ms
-#      - light.turn_off: status_light
-#  - platform: template
-#    name: Fan Timer
-#    icon: mdi:fan-clock
-#    turn_on_action:
-#      - light.turn_on: status_light
-#      - remote_transmitter.transmit_raw:
-#          carrier_frequency: 38kHz
-#          code: [1174, -378, 1312, -371, 476, -1212, 1315, -372, 1334, -353, 468, -1253, 434, -1226, 461, -1219, 1315, -372, 472, -1225, 458, -1222, 465, -7984, 1315, -355, 1315, -372, 468, -1242, 1289, -378, 1309, -375, 482, -1205, 469, -1221, 466, -1242, 1292, -371, 469, -1222, 465, -1245, 445, -8004, 1272, -378, 1312, -371, 472, -1215, 1331, -356, 1316, -371, 469, -1242, 445, -1222, 465, -1218, 1305, -383, 472, -1215, 468, -1242, 445, -7959, 1323, -372, 1301, -386, 437, -1253, 1309, -378, 1278, -406, 472, -1184, 468, -1241, 446, -1222, 465, -1239, 449, -1221, 465, -1219, 523]
-#      - delay: 60ms
-#      - light.turn_off: status_light
-#  - platform: template
-#    name: Fan Mode
-#    icon: mdi:fan-auto
-#    turn_on_action:
-#      - light.turn_on: status_light
-#      - remote_transmitter.transmit_raw:
-#          carrier_frequency: 38kHz
-#          code: [1151, -441, 1246, -409, 438, -1277, 1253, -434, 1269, -419, 406, -1284, 403, -1304, 383, -1284, 403, -1280, 1273, -414, 422, -1272, 399, -8015, 1284, -417, 1256, -431, 406, -1305, 1226, -444, 1243, -440, 406, -1278, 409, -1278, 406, -1303, 384, -1284, 1253, -431, 406, -1284, 403, -8014, 1264, -458, 1229, -441, 403, -1282, 1304, -383, 1317, -371, 407, -1305, 414, -1253, 404, -1284, 403, -1285, 1313, -372, 437, -1271, 417, -7994, 1293, -403, 1305, -383, 438, -1253, 1281, -426, 1266, -403, 435, -1250, 444, -1244, 437, -1254, 434, -1274, 1261, -403, 438, -1254, 434, -7994, 1305, -366, 1306, -376, 475, -1212, 1317, -371, 1335, -354, 468, -1223, 465, -1243, 445, -1222, 466, -1219, 1305, -383, 449, -1246, 431, -7987, 1285, -418, 1253, -434, 407, -1274, 1265, -434, 1247, -441, 406, -1247, 441, -1247, 438, -1272, 416, -1253, 1283, -433, 407, -1254, 434, -8018, 1265, -462, 1226, -441, 403, -1250, 1308, -411, 1254, -434, 375, -1305, 383, -1285, 403, -1285, 406, -1279, 410, -1278, 406, -1276, 412, -8037, 1251, -403, 1308, -380, 437, -1254, 1295, -409, 1310, -362, 437, -1298, 392, -1245, 438, -1255, 528, -1180, 413, -1254, 434, -1260, 428]
-#      - delay: 60ms
-#      - light.turn_off: status_light
+# Infrared platform — creates infrared entities
+infrared:
+  - platform: ir_rf_proxy
+    name: Living room IR Transmitter
+    remote_transmitter_id: ir_tx
+  - platform: ir_rf_proxy
+    name: Living room IR Receiver
+    receiver_frequency: 38kHz
+    remote_receiver_id: ir_rx
