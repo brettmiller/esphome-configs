@@ -4,7 +4,7 @@ esp32_ble_tracker:
   id: ble_tracker
   scan_parameters:
     interval: 211ms  # default 320ms
-    window: 120ms    # default 30ms
+    window: 120ms    # defaults to interval value w/ wifi (30ms w/o wifi)
     active: true
     # default scan interval may be to intensive
     # scan_parameters:
