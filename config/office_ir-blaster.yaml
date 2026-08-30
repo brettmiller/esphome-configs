@@ -1,0 +1,10 @@
+---
+
+substitutions:
+  device_name: office-ir-blaster
+  name: "Office IR Blaster"
+  description: Tuya WiFi IR Remote
+
+packages:
+  # the device included config/common/* so it can do needed '!remove's
+  device: !include devices/tuya_wifi_ir_remote.yaml
