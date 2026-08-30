@@ -1,0 +1,13 @@
+# Common code for bluetooth proxies
+#
+# https://esphome.io/components/bk72xx_ble_tracker/
+
+bk72xx_ble_tracker:
+  id: ble_tracker
+  scan_parameters:
+    #interval: 200ms # default 100ms - https://esphome.io/components/bk72xx_ble_tracker/#use-on-a-single-core-chip
+    #window: 50ms    # default 30ms
+    active: true
+
+bluetooth_proxy:
+  id: ble_proxy
