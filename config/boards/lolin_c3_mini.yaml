@@ -6,7 +6,7 @@
 #
 substitutions:
   onboard_led_gpio: GPIO7
-  onboard_led_rgb_order: GRB
+  onboard_led_channel_colors: GRB
 
 esp32:
   board: lolin_c3_mini

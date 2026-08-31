@@ -10,7 +10,7 @@
 
 substitutions:
   onboard_led_gpio: GPIO35
-  onboard_led_rgb_order: GBR
+  onboard_led_channel_colors: GBR
 
 esp32:
   board: m5stack-atoms3

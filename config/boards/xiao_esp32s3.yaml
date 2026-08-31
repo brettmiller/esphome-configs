@@ -5,7 +5,7 @@
 #
 substitutions:
   onboard_led_gpio: GPIO21
-  onboard_led_rgb_order: GRB
+  onboard_led_channel_colors: GRB
 
 esp32:
   board: seeed_xiao_esp32s3
