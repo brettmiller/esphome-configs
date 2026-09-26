@@ -1,0 +1,21 @@
+---
+# Espressif ESP32-S3-BOX-3
+#
+# https://github.com/espressif/esp-box
+# https://docs.platformio.org/en/latest/boards/espressif32/esp32s3box.html
+#
+esp32:
+  board: esp32s3box
+  flash_size: 16MB
+  framework:
+    type: esp-idf
+
+psram:
+  mode: octal
+  speed: 80MHz
+
+# GPIO43/44 (UART0 TX/RX) are also PMOD2 IO8/IO4 on the Sensor Base connector
+# (IO4 doubles as the Sensor Base's IR-emitter enable line), so keep the
+# logger off the primary UART.
+logger:
+  hardware_uart: USB_SERIAL_JTAG
