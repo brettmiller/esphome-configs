@@ -16,6 +16,9 @@ packages:
 
 # <<: !include components/bluetooth_proxy+tracker.yaml
 
+ota:
+  - id: !remove ota_esphome # use common/ota.yaml instead of from package
+
 sensor:
   - platform: homeassistant
     id: carport_temp

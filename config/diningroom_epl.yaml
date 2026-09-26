@@ -26,6 +26,9 @@ esp32:
 logger:
 #  baud_rate: 0 #disable UART logging
 
+ota:
+  - id: !remove ota_esphome # use common/ota.yaml instead of EPL's
+
 ## override the Max distance from 600 to 700 cm w/ !extend
 number:
   - id: !extend distance
