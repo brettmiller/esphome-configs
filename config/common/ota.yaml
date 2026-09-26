@@ -6,12 +6,12 @@
 # https://esphome.io/components/ota.html
 #
 substitutions:
-  ota_password: !secret esphome_ota_password
 
 ota:
   - platform: esphome
     id: component_ota
-    password: "${ota_password}"
+    # 2026.9.0 added encryption (uses key from api.encryption:)
+    encryption:
 
 # in 2024.6.0 safe_mode is now a top level component'
 safe_mode:
