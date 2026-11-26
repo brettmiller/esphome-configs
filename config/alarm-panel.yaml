@@ -7,21 +7,20 @@ substitutions:
   description: "Alarm Panel - Waveshare ESP32-S3 ETH w/ POE installed in alarm panel box for door sensors"
   # these don't seem to expand out the files in common/*.yaml, with the `<<: !include`s so including here too
   time_timezone: "America/Chicago"
-  ota_password: !secret esphome_ota_password
   api_key: !secret esphome_api_key
 
 
 packages:
   #<<: !include_dir_named common
-  # have to manually include common components to be able to remove wifi_info text_sensor
-  api: !include common/api.yaml
+  # have to manually include each common components to be able to remove wifi_info text_sensor
+  api:     !include common/api.yaml
   esphome: !include common/esphome.yaml
-  logger: !include common/logger.yaml
-  ota: !include common/ota.yaml
+  logger:  !include common/logger.yaml
+  ota:     !include common/ota.yaml
   restart: !include common/restart.yaml
-  time: !include common/time.yaml
-  boards: !include boards/waveshare_esp32-s3_eth.yaml
-  ble: !include components/bluetooth_proxy+tracker.yaml
+  time:    !include common/time.yaml
+  boards:  !include boards/waveshare_esp32-s3_eth.yaml
+  ble:     !include components/bluetooth_proxy+tracker.yaml
   #<<: !include common/api.yaml
   #<<: !include common/esphome.yaml
   #<<: !include common/logger.yaml
