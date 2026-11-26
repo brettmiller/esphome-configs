@@ -1,6 +1,11 @@
 #
 # Tuya WiFi IR Remote Control (IH-07HW-WIFI)
 #
+substitutions:
+  device_name: tuya-ir-rf
+  name: "tuya ir+rf"
+  description: Tuya IR+RF module
+
 
 packages:
   <<: !include_dir_named ../common
