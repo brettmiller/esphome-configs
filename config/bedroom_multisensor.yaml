@@ -12,7 +12,8 @@ substitutions:
   #bed_sensor_gpio: GPIO13
   #bed_sensor_gpio: A12 # (GPIO13)
   bed_sensor_gpio: GPIO1
-  bed_sensor_delta: '1.5'
+  bed_sensor_delta: '0.5'
+  bed_clear_level: '2.7'
 
 packages:
   <<: !include_dir_named common
@@ -68,10 +69,11 @@ binary_sensor:
     name: "${name} Bed Occupied"
     device_class: occupancy
     id: ${device_id}_bed_occupancy
-    # Checks to see if voltage is lower than the trigger level set via input number, if so it sets left bed side to occupied
+    # Occupied below the HA trigger level; only clears above bed_clear_level (hysteresis, occupied can drift to ~2.3V)
     lambda: |-
-      if (id(${device_id}_bed_sensor).state < id(${device_id}_bed_trigger_level).state) {
-        return true;
-      } else {
-        return false;
-      }
+      float v = id(${device_id}_bed_sensor).state;
+      if (v < id(${device_id}_bed_trigger_level).state) return true;
+      if (v > ${bed_clear_level}) return false;
+      return {};
+    filters:
+      - delayed_off: 30s
