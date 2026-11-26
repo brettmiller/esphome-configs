@@ -12,3 +12,5 @@ esp32:
   board: lolin_c3_mini
   framework:
     type: esp-idf
+    advanced:
+      flash_chip: generic
